@@ -1,10 +1,12 @@
 package undecided;
 
+import facade.AbstractFacade;
 import gui.Main;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -17,6 +19,7 @@ import org.jdom2.xpath.XPathFactory;
 public class Util {
 	private static XPathFactory factory = XPathFactory.instance();
 	public static ColorBook colorBook = new ColorBook();
+	public static NameBook nameBook = new NameBook();
 
 	public static Document buildDocument(File catalogXMLFile) {
 		try {
@@ -76,6 +79,17 @@ public class Util {
 		return elements;
 	}
 
+	public static boolean editingIsAllowed(List<Element> editors) {
+		String currentEditorID = Main.getEditor().getAttributeValue("netID");
+		for (Element e : editors) {
+			String thisEditorID = e.getAttributeValue("netID");
+			if (thisEditorID.equals(currentEditorID)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static String getTreeLabel(Element e) {
 		String tagName = e.getName();
 		if (tagName.equals("CATALOG")) {
@@ -103,6 +117,47 @@ public class Util {
 		}
 	}
 
+	public static String getNameFromID(int ID) {
+		switch (ID) {
+		case AbstractFacade.CREDIT:
+			return "CREDIT";
+		case AbstractFacade.CROSS:
+			return "CROSS";
+		case AbstractFacade.DESCRIPTION:
+			return "DESCRIPTION";
+		case AbstractFacade.DUAL:
+			return "DUAL";
+		case AbstractFacade.EXPERIMENTAL:
+			return "EXPERIMENTAL";
+		case AbstractFacade.FALL:
+			return "FALL";
+		case AbstractFacade.MAXHOURS:
+			return "MAXHOURS";
+		case AbstractFacade.NONMAJORGC:
+			return "NONMAJORGC";
+		case AbstractFacade.NOTES:
+			return "NOTES";
+		case AbstractFacade.PREREQ:
+			return "PREREQ";
+		case AbstractFacade.PRIMARY:
+			return "PRIMARY";
+		case AbstractFacade.REPEATABLE:
+			return "REPREATABLE";
+		case AbstractFacade.SECONDARY:
+			return "SECONDARY";
+		case AbstractFacade.SFONLY:
+			return "SFONLY";
+		case AbstractFacade.SPRING:
+			return "SPRING";
+		case AbstractFacade.SUMMER:
+			return "SUMMER";
+		case AbstractFacade.TITLE:
+			return "TITLE";
+		default:
+			return "___ERROR___";
+		}
+	}
+
 	private static String catalogLabel(Element e) {
 		return e.getAttributeValue("currentYear") + " Catalog";
 	}
@@ -122,9 +177,9 @@ public class Util {
 	private static String headerLabel(Element e) {
 		Element parent = e.getParentElement();
 		String parentName = parent.getName();
-		if(parentName.equals("CATALOG")){
+		if (parentName.equals("CATALOG")) {
 			return "Catalog header";
-	    }else if (parentName.equals("COLLEGE")) {
+		} else if (parentName.equals("COLLEGE")) {
 			return parent.getAttributeValue("name") + " header";
 		} else if (parentName.equals("PROGRAM")) {
 			return parent.getAttributeValue("designator") + " header";
@@ -151,10 +206,15 @@ public class Util {
 
 	private static String courseLabel(Element e) {
 		Element parent = e.getParentElement();
-		return parent.getAttributeValue("designator")+" "+e.getAttributeValue("number");
+		return parent.getAttributeValue("designator") + " "
+				+ e.getAttributeValue("number");
 	}
 
 	private static String errorLabel() {
 		return "?";
+	}
+
+	public static int getIDFromName(String name) {
+		return nameBook.get(name)==null?-1:nameBook.get(name);
 	}
 }

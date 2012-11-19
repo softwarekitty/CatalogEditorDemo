@@ -33,12 +33,11 @@ public class Main extends JApplet {
 	private static JFrame frame;
 	private static EditingViewPane view;
 	private static Document document;
-	public static boolean debug1 = false; //xpath and threading debugging
-	public static boolean debug2 = false; //i/o debugging
-	public static boolean debug3 = false; //verbose
-	public static boolean debug4 = true; //auto opening sequence
-	public static boolean debug5 = false; //listeners and event echo
-
+	public static boolean debug1 = false; // xpath and threading debugging
+	public static boolean debug2 = false; // i/o debugging
+	public static boolean debug3 = false; // verbose
+	public static boolean debug4 = true; // auto opening sequence
+	public static boolean debug5 = false; // listeners and event echo
 
 	private static Element editor;
 	private static File currentFile;
@@ -48,7 +47,7 @@ public class Main extends JApplet {
 	 */
 	public static void main(String[] args) {
 		frame = new JFrame();
-		frame.setPreferredSize(new Dimension(900, 750));
+		frame.setPreferredSize(new Dimension(1000, 850));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Setup menu options
@@ -95,8 +94,9 @@ public class Main extends JApplet {
 		frame.setJMenuBar(menuBar);
 		frame.pack();
 		frame.setVisible(true);
-		if(debug4){
-			currentFile = new File("/Users/carlchapman/Desktop/ComS_490/CatalogDatabase.xml"); 
+		if (debug4) {
+			currentFile = new File(
+					"/Users/carlchapman/Desktop/ComS_490/CatalogDatabase.xml");
 			open(currentFile);
 		}
 	}
@@ -106,7 +106,8 @@ public class Main extends JApplet {
 		try {
 			if (debug2) {
 				System.out.println("attempting to save file, document: "
-						+ document.toString()+" file: "+currentFile.toString());
+						+ document.toString() + " file: "
+						+ currentFile.toString());
 				output.output(document, System.out);
 			}
 			output.output(document, new FileOutputStream(currentFile));
@@ -119,11 +120,15 @@ public class Main extends JApplet {
 
 	private static void open(File file) {
 		document = Util.buildDocument(file);
-		if(!debug4){
+		if (!debug4) {
+			@SuppressWarnings("unused")
 			CredentialsDialog validator = new CredentialsDialog(frame);
 			if (editor == null) {
-				System.out.println("null editor returned from credential dialog");
+				System.out
+						.println("null editor returned from credential dialog");
 			}
+		}else{
+			editor = Util.getElement("//EDITOR[@netID=\"carl1978\"]");
 		}
 
 		// TODO - get settings from the editor element to set up the proper
@@ -132,8 +137,8 @@ public class Main extends JApplet {
 		// selections
 		EditingTreeModel model = new EditingTreeModel();
 		view = new EditingViewPane(model);
-		
-		//view can also be pair of permissions model and permissions viewpane
+
+		// view can also be pair of permissions model and permissions viewpane
 		frame.setContentPane(view);
 		frame.pack();
 		frame.setVisible(true);
@@ -143,9 +148,13 @@ public class Main extends JApplet {
 		return document;
 	}
 
-	//called by CredentialsDialog
+	// called by CredentialsDialog
 	public static void setEditor(Element newEditor) {
 		editor = newEditor;
+	}
+
+	public static Element getEditor() {
+		return editor;
 	}
 
 	public static void repack() {

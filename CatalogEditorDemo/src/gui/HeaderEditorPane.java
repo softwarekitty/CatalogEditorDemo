@@ -1,17 +1,25 @@
 package gui;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import org.jdom2.Element;
 
-import gui.widget.ElementComponent;
+import facade.ElementFacade;
+import field.StringField;
 import gui.widget.SaveButton;
 
 @SuppressWarnings("serial")
-public class HeaderEditorPane extends JPanel {
+public class HeaderEditorPane extends JPanel implements ActionListener{
+	public static final int HEADER = 99;
 	private Element headerElement;
-	private ElementComponent headerComponent;
+	private StringField headerField;
 	private SaveButton saveButton;
 
 	public HeaderEditorPane(Element header) {
@@ -19,9 +27,20 @@ public class HeaderEditorPane extends JPanel {
 		headerElement = header;
 		saveButton = new SaveButton();
 		saveButton.setEnabled(false);
-		headerComponent = new ElementComponent(headerElement, saveButton);
-		add(headerComponent);
+		saveButton.addActionListener(this);
+		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		List<Element> editors = ((Element) headerElement.getParent()).getChild(
+				"EDITORS").getChildren("EDITOR");
+		ElementFacade ef = new ElementFacade(headerElement, saveButton,
+				null, HEADER);
+		headerField = new StringField(ef,editors, new Dimension(800,700));
+		add(headerField);
 		add(saveButton);
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		saveButton.save();
 	}
 
 }

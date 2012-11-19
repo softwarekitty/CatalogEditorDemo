@@ -1,9 +1,10 @@
 package undecided;
 
-import facade.VersionFacade;
-
 import java.awt.Color;
 import java.util.HashMap;
+
+import facade.AbstractFacade;
+import gui.HeaderEditorPane;
 
 @SuppressWarnings("serial")
 public class ColorBook extends HashMap<String,ColorData>{
@@ -11,9 +12,11 @@ public class ColorBook extends HashMap<String,ColorData>{
 	private final String HIGHLIGHT = "HIGHLIGHT";
 	private final String BACKGROUND = "BACKGROUND";
 	
-	private int[][] values = {{0,0,225},{216,165,32},{0,128,0}};
-	private String[] names = {"BLUE","ORANGE","GREEN"};
-	private HashMap<String,String> elementNameMap;
+	private int[][] values = {{255,165,0},{173,255,47},{220,20,60},{139,69,19},{53,50,204},{255,255,0},{255,105,180},
+	{222,184,135},{255,69,0},{135,206,250},{255,0,255},{34,139,34},{46,139,87},{0,0,225},{106,90,205},{178,34,34},{107,142,35},{255,0,0}};
+	private String[] names = {"ORANGE","GREENYELLOW","CRIMSON","SADDLE_BROWN","DARK_ORCHID","YELLOW","HOT_PINK","BURLYWOOD","ORANGERED",
+			"LIGHTSKYBLUE","MAGENTA","FORESTGREEN","SEAGREEN","BLUE","SLATEBLUE","FIREBRICK","OLIVEDRAB","RED"};
+	private HashMap<Integer,String> elementIDMap;
 	
 	public ColorBook(){
 		super();
@@ -24,27 +27,27 @@ public class ColorBook extends HashMap<String,ColorData>{
 			put(BACKGROUND+names[i],new ColorData(values[i][0],values[i][1],values[i][2],200));
 
 		}
-		initElementNameMap();
+		initElementIDMap();
 	}
 	
-	private void initElementNameMap(){
-		elementNameMap = new HashMap<String,String>();
-		String[] facadeNames = VersionFacade.names;
-		int length = facadeNames.length;
-		for(int i=0;i<length;i++){
-			elementNameMap.put(facadeNames[i], names[i]);
+	private void initElementIDMap(){
+		elementIDMap = new HashMap<Integer,String>();
+		int i=0;
+		for(int a:AbstractFacade.allConstants){
+			elementIDMap.put(a, names[i++]);
 		}
+		elementIDMap.put(HeaderEditorPane.HEADER, "RED");
 	}
 	
-	public Color getTransparent(String facadeName){
-		return get(TRANSPARENT+elementNameMap.get(facadeName)).getColor();
+	public Color getTransparent(int ID){
+		return get(TRANSPARENT+elementIDMap.get(ID)).getColor();
 	}
 	
-	public Color getHighlight(String facadeName){
-		return get(HIGHLIGHT+elementNameMap.get(facadeName)).getColor();
+	public Color getHighlight(int ID){
+		return get(HIGHLIGHT+elementIDMap.get(ID)).getColor();
 	}
 	
-	public Color getBackground(String facadeName){
-		return get(BACKGROUND+elementNameMap.get(facadeName)).getColor();
+	public Color getBackground(int ID){
+		return get(BACKGROUND+elementIDMap.get(ID)).getColor();
 	}
 }

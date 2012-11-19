@@ -23,18 +23,31 @@ public class Range {
 	public int start() {
 		return start;
 	}
+	
+	public void setStart(int s){
+		start=s;
+	}
 
 	public int end() {
 		return end;
 	}
 
 	public boolean isContainedIn(Range other) {
-		return other.start() <= start() && other.end() >= end();
+		return (other.start() <= start()
+				&& other.end() >= end());
+	}
+	
+	public boolean isEmpty(){
+		return start() == end();
 	}
 
 	public boolean overlaps(Range other) {
 		return (other.start() < end() && other.start() > start())
 				|| (other.end() > start() && end() > other.end())
 				|| other.isContainedIn(this);
+	}
+	
+	public String toString(){
+		return "["+start()+","+end()+"]";
 	}
 }

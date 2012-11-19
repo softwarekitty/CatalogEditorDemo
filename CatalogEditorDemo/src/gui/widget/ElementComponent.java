@@ -11,10 +11,10 @@ import javax.swing.event.DocumentListener;
 
 import org.jdom2.Element;
 
-import facade.Synchable;
+import facade.Syncable;
 
 @SuppressWarnings("serial")
-public class ElementComponent extends JPanel implements Synchable{
+public class ElementComponent extends JPanel implements Syncable{
 	private JTextField field;
 	private Element element;
 	protected boolean hasUnsavedChanges;
@@ -35,13 +35,13 @@ public class ElementComponent extends JPanel implements Synchable{
 	}
 
 	@Override
-	public void synch() {
+	public void sync() {
 		element.setText(field.getText());
 		handleChange();		
 	}
 
 	@Override
-	public boolean needsSynching() {
+	public boolean needsSyncing() {
 		return hasUnsavedChanges;
 	}
 	

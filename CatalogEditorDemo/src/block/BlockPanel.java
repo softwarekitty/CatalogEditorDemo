@@ -1,9 +1,11 @@
 package block;
 
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -11,7 +13,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.DocumentFilter;
 
+import undecided.Util;
 import facade.VersionFacade;
+import gui.CourseEditorPane;
 import gui.Main;
 
 @SuppressWarnings("serial")
@@ -23,11 +27,11 @@ public class BlockPanel extends JPanel implements DocumentListener,
 	private VersionDocument doc;
 	private int lastCaretPosition;
 
-	public BlockPanel(VersionFacade facade) {
+	public BlockPanel(VersionFacade facade, List<org.jdom2.Element> editors) {
 		this.vFacade = facade;
+		
 		// create pane
 		edit = new JEditorPane();
-		edit.setPreferredSize(new Dimension(500,300));
 
 		// associate VersionEditorKit (which assigns a VersionDocument to pane)
 		edit.setEditorKit(new VersionEditorKit(this));
@@ -41,7 +45,14 @@ public class BlockPanel extends JPanel implements DocumentListener,
 		addListenerAndFilter();
 
 		// add the pane to this panel
-		add(edit);
+		JScrollPane container = new JScrollPane(edit);
+		add(container);
+		container.setPreferredSize(new Dimension(CourseEditorPane.WIDTH, 100));
+		///setMaximumSize(new Dimension(CourseEditorPane.WIDTH, 100));
+
+		if (!Util.editingIsAllowed(editors)) {
+			edit.setEditable(false);
+		}
 	}
 
 	private void addListenerAndFilter() {
@@ -95,7 +106,7 @@ public class BlockPanel extends JPanel implements DocumentListener,
 		// remember where the caret was
 		lastCaretPosition = edit.getCaretPosition() + caretMovement;
 		handleChange("BlockPanel");
-		
+
 	}
 
 	public void handleChange(String name) {
@@ -104,12 +115,14 @@ public class BlockPanel extends JPanel implements DocumentListener,
 		InsertingThread insertingThread = new InsertingThread(name);
 		insertingThread.start();
 	}
-	
-	class InsertingThread extends Thread{
+
+	class InsertingThread extends Thread {
 		String name;
-		public InsertingThread(String name){
+
+		public InsertingThread(String name) {
 			this.name = name;
 		}
+
 		public void run() {
 			try {
 				SwingUtilities.invokeAndWait(new ReInsert(name));
@@ -117,7 +130,7 @@ public class BlockPanel extends JPanel implements DocumentListener,
 				e.printStackTrace();
 			}
 			if (Main.debug1) {
-				System.out.println("Finished on " + Thread.currentThread());
+				System.out.println("Finished Inserting Thread initiated by "+name+" on " + Thread.currentThread());
 
 			}
 		}
@@ -145,7 +158,7 @@ public class BlockPanel extends JPanel implements DocumentListener,
 			}
 			// put the listener and filter back
 			addListenerAndFilter();
-			edit.setCaretPosition(Math.min(lastCaretPosition,doc.getLength()));
+			edit.setCaretPosition(Math.min(lastCaretPosition, doc.getLength()));
 		}
 
 	}

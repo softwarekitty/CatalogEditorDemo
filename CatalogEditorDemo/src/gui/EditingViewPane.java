@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -17,7 +19,9 @@ public class EditingViewPane extends JSplitPane{
 		JPanel rightPanel = new JPanel();
 		tree.addTreeSelectionListener(new EditingSelectionListener(tree, rightPanel, model));
 		setLeftComponent(new JScrollPane(tree));
-		setRightComponent(new JScrollPane(rightPanel));
+		JScrollPane rightPane = new JScrollPane(rightPanel);
+		//rightPane.setPreferredSize(new Dimension(500,300));
+		setRightComponent(rightPane);
 	}
 
 }
