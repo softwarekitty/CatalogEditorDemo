@@ -48,8 +48,7 @@ public class BlockPanel extends JPanel implements DocumentListener,
 		JScrollPane container = new JScrollPane(edit);
 		add(container);
 		container.setPreferredSize(new Dimension(CourseEditorPane.WIDTH, 100));
-		///setMaximumSize(new Dimension(CourseEditorPane.WIDTH, 100));
-
+		
 		if (!Util.editingIsAllowed(editors)) {
 			edit.setEditable(false);
 		}
@@ -71,6 +70,10 @@ public class BlockPanel extends JPanel implements DocumentListener,
 		edit.getDocument().removeDocumentListener(this);
 		((DefaultStyledDocument) edit.getDocument())
 				.setDocumentFilter(new DocumentFilter());
+	}
+	
+	public String getText(){
+		return edit.getText();
 	}
 
 	@Override

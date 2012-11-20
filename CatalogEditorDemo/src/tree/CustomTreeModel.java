@@ -2,6 +2,7 @@ package tree;
 
 import gui.Main;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import javax.swing.event.TreeModelListener;
@@ -11,14 +12,33 @@ import javax.swing.tree.TreePath;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
 
-
 /**
- * the two methods not implemented by AbstractTreeModel give extending classes the 
- * freedom to display an xml document with visible nodes nested to any depth within
- * visible nodes, so that the same document may be viewable in different ways.
- *
+ * the two methods not implemented by CustomTreeModel give extending classes the
+ * freedom to display an xml document with visible nodes nested to any depth
+ * within visible nodes, so that the same document may be viewable in different
+ * ways.
+ * 
  */
-public abstract class AbstractTreeModel implements TreeModel {
+public class CustomTreeModel implements TreeModel {
+	private LinkedList<String> visibleElements;
+	private LinkedList<String> leaves;
+
+	public CustomTreeModel(String[] visibleElements, String[] leaves) {
+		this.visibleElements = new LinkedList<String>(
+				Arrays.asList(visibleElements));
+		this.leaves = new LinkedList<String>(Arrays.asList(leaves));
+	}
+
+	// these will be leaf nodes
+	@Override
+	public boolean isLeaf(Object node) {
+		return leaves.contains(((Element) node).getName());
+	}
+
+	// these will be visible as leaves or folders
+	public LinkedList<String> getVisibleElements() {
+		return visibleElements;
+	}
 
 	@Override
 	public Object getRoot() {
@@ -89,45 +109,48 @@ public abstract class AbstractTreeModel implements TreeModel {
 		Element parentElement = (Element) parent;
 		Element childElement = (Element) child;
 		int childIndex = 0;
-		
-		//if the child to search for is not visible, return error
+
+		// if the child to search for is not visible, return error
 		LinkedList<String> visibleElements = getVisibleElements();
 		if (!visibleElements.contains(childElement.getName())) {
 			System.err.println("the child: " + ((Element) child).getName()
 					+ " is not visible and so has no index");
 			return -1;
 		}
-		
-		//iterate through children to find the index of the desired child
-		LinkedList<Element> allChildren = new LinkedList<Element>(parentElement.getChildren());
+
+		// iterate through children to find the index of the desired child
+		LinkedList<Element> allChildren = new LinkedList<Element>(
+				parentElement.getChildren());
 		for (Element e : allChildren) {
 			String thisName = e.getName();
 			int thisChildCount = getChildCount(e);
-			
-			//if this is the child or a child on this level is visible...
-			if(e.equals(childElement)){
+
+			// if this is the child or a child on this level is visible...
+			if (e.equals(childElement)) {
 				return childIndex;
-			}else if(visibleElements.contains(thisName)){
+			} else if (visibleElements.contains(thisName)) {
 				childIndex++;
-				
-				//however, if there are visible children below this level,
-				//either find the index on the next visible level of the desired child,
-				//or add the number of visible children to the counter and keep looking
-			}else if (thisChildCount > 0) {
-				int innerIndex = getIndexOfChild(e,child);
-				if(innerIndex!=-1){
+
+				// however, if there are visible children below this level,
+				// either find the index on the next visible level of the
+				// desired child,
+				// or add the number of visible children to the counter and keep
+				// looking
+			} else if (thisChildCount > 0) {
+				int innerIndex = getIndexOfChild(e, child);
+				if (innerIndex != -1) {
 					return innerIndex + childIndex;
-				}else{
-					childIndex +=thisChildCount;
+				} else {
+					childIndex += thisChildCount;
 				}
 			}
 		}
 		System.err.println("the child: " + ((Element) child).getName()
-				+ " was not found in the parent "+parentElement.getName());
+				+ " was not found in the parent " + parentElement.getName());
 		return -1;
 	}
 
-	// attempted to use descendats filtered to get the index of a child, but
+	// attempted to use descendants filtered to get the index of a child, but
 	// hidden children would trigger that
 	// Element parentElement = (Element) parent;
 	// int childIndex = 0;
@@ -152,8 +175,6 @@ public abstract class AbstractTreeModel implements TreeModel {
 		}
 		return visibleFilter;
 	}
-
-	public abstract LinkedList<String> getVisibleElements();
 
 	// ******//
 

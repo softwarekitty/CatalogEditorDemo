@@ -40,14 +40,17 @@ public class ColorBook extends HashMap<String,ColorData>{
 	}
 	
 	public Color getTransparent(int ID){
-		return get(TRANSPARENT+elementIDMap.get(ID)).getColor();
+		ColorData cd = get(TRANSPARENT+elementIDMap.get(ID));
+		return cd==null?Color.RED:cd.getColor();
 	}
 	
 	public Color getHighlight(int ID){
-		return get(HIGHLIGHT+elementIDMap.get(ID)).getColor();
+		ColorData cd = get(HIGHLIGHT+elementIDMap.get(ID));
+		return cd==null?Color.RED:cd.getColor();
 	}
 	
 	public Color getBackground(int ID){
-		return get(BACKGROUND+elementIDMap.get(ID)).getColor();
+		ColorData cd = get(BACKGROUND+elementIDMap.get(ID));
+		return cd==null?Color.RED:cd.getColor();
 	}
 }

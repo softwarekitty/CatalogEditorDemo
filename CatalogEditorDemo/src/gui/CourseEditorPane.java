@@ -38,16 +38,13 @@ public class CourseEditorPane extends JPanel implements ActionListener {
 
 	// gets the versionPanel, which consists of the fieldPanel and the editPanel
 	private JPanel getVersionPanel(Element courseElement) {
-		String currentYear = Main.getDocument().getRootElement()
-				.getAttributeValue("currentYear");
+
 		String programDesignator = courseElement.getParentElement()
 				.getAttributeValue("designator");
 		String courseNumber = courseElement.getAttributeValue("number");
-		String xPathExpression = "//PROGRAM[@designator=\"" + programDesignator
-				+ "\"]/COURSE[@number=\"" + courseNumber
-				+ "\"]/VERSION[@catalogYear=\"" + currentYear + "\"]";
 
-		Element versionElement = Util.getElement(xPathExpression);
+
+		Element versionElement = Util.getCurrentVersionFromCourse(courseElement, courseNumber, programDesignator);
 		// the facade mediates multiple views with one save button and one
 		// version Element
 		List<Element> editors = ((Element) courseElement.getParent()).getChild(
