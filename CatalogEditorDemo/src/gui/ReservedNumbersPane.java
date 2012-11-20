@@ -35,7 +35,7 @@ public class ReservedNumbersPane extends JPanel implements ActionListener{
 				"EDITORS").getChildren("EDITOR");
 		ElementFacade ef = new ElementFacade(reservedNumbersElement, saveButton,
 				null, RESERVEDNUMBERS);
-		numbersField = new StringField(ef,editors, new Dimension(800,200));
+		numbersField = new StringField(ef,editors, new Dimension(700,200));
 		add(numbersField);
 		add(saveButton);
 	}

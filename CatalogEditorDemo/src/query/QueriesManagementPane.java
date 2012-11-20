@@ -2,6 +2,7 @@ package query;
 
 import gui.CourseEditorPane;
 import gui.Main;
+import gui.widget.AbstractHandle;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -19,7 +20,7 @@ import org.jdom2.Element;
 
 
 @SuppressWarnings("serial")
-public class QueriesManagementPane extends JPanel implements ActionListener,Handleable {
+public class QueriesManagementPane extends JPanel implements ActionListener,Handleable,Displayable {
 	private Element queriesElement;
 	private JPanel container;
 	private JTextField descriptionField;
@@ -91,7 +92,7 @@ public class QueriesManagementPane extends JPanel implements ActionListener,Hand
 
 	}
 
-	public void removeHandle(QueryHandle toRemove) {
+	public void removeHandle(AbstractHandle toRemove) {
 		container.remove(toRemove);
 	}
 	

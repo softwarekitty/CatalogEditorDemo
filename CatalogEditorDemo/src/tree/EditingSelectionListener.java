@@ -31,7 +31,11 @@ public class EditingSelectionListener extends AbstractSelectionListener {
 		if(editor==null){
 			System.err.println("null editor in EditingSelectionListener.valueChanged");
 		}else{
-			Main.setEditorSetting("editingTreePath",Util.getXPath(selectedElement) );
+			String previousTreePath = Main.getEditor().getAttributeValue("editingTreePath");
+			String currentTreePath = Util.getXPath(selectedElement);
+			if(!currentTreePath.equals(previousTreePath)){
+				Main.setEditorSetting("editingTreePath", currentTreePath);	
+			}
 		}
 		
 		if (selectedElement == null) {

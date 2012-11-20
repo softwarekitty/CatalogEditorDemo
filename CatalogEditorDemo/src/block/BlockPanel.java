@@ -29,12 +29,13 @@ public class BlockPanel extends JPanel implements DocumentListener,
 
 	public BlockPanel(VersionFacade facade, List<org.jdom2.Element> editors) {
 		this.vFacade = facade;
-		
+		setMaximumSize(new Dimension(CourseEditorPane.WIDTH,Integer.MAX_VALUE));
+
 		// create pane
 		edit = new JEditorPane();
 
 		// associate VersionEditorKit (which assigns a VersionDocument to pane)
-		edit.setEditorKit(new VersionEditorKit(this));
+		edit.setEditorKit(new VersionEditorKit(this,true));
 
 		// store a reference to the document
 		doc = (VersionDocument) edit.getDocument();
@@ -47,10 +48,10 @@ public class BlockPanel extends JPanel implements DocumentListener,
 		// add the pane to this panel
 		JScrollPane container = new JScrollPane(edit);
 		add(container);
-		container.setPreferredSize(new Dimension(CourseEditorPane.WIDTH, 100));
-		
+		container.setPreferredSize(new Dimension(CourseEditorPane.WIDTH, 140));
+
 		if (!Util.editingIsAllowed(editors)) {
-			edit.setEditable(false);
+		edit.setEditable(false);
 		}
 	}
 
@@ -74,6 +75,10 @@ public class BlockPanel extends JPanel implements DocumentListener,
 	
 	public String getText(){
 		return edit.getText();
+	}
+	
+	public VersionDocument getDoc(){
+		return (VersionDocument)edit.getDocument();
 	}
 
 	@Override

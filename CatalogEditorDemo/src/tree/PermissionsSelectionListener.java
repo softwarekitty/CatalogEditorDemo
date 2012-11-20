@@ -1,5 +1,7 @@
 package tree;
 
+import gui.AddRemoveCoursePane;
+import gui.CatalogSettingsPane;
 import gui.Main;
 import gui.PermissionsPane;
 import gui.ReservedNumbersPane;
@@ -32,8 +34,17 @@ public class PermissionsSelectionListener extends AbstractSelectionListener{
 		if(editor==null){
 			System.err.println("null editor in EditingSelectionListener.valueChanged");
 		}else{
-			Main.setEditorSetting("permissionsTreePath",Util.getXPath(selectedElement) );
+			String previousTreePath = Main.getEditor().getAttributeValue("permissionsTreePath");
+			String currentTreePath = Util.getXPath(selectedElement);
+			if(!currentTreePath.equals(previousTreePath)){
+				Main.setEditorSetting("permissionsTreePath", currentTreePath);	
+			}
 		}
+		
+		//colleges can add or subtract college elements, but have to assign a good name attribute
+		//college can add or subtract headers if ends up as one
+		//programs can add or subtract program elements
+		//program can add or subtract course elements - that's it
 		
 		String tagName = selectedElement.getName();
 		if (tagName.equals("EDITORS")) {
@@ -51,7 +62,17 @@ public class PermissionsSelectionListener extends AbstractSelectionListener{
 			rightPanel.repaint();
 			rightPanel.add(new QueriesManagementPane(selectedElement));
 			Main.repack();
-		} else{
+		}else if(tagName.equals("CATALOG")){
+			rightPanel.removeAll();
+			rightPanel.repaint();
+			rightPanel.add(new CatalogSettingsPane(selectedElement));
+			Main.repack();
+		}else if(tagName.equals("PROGRAM")){
+			rightPanel.removeAll();
+			rightPanel.repaint();
+			rightPanel.add(new AddRemoveCoursePane(selectedElement));
+			Main.repack();
+		}else{
 			return;
 		}
 	}

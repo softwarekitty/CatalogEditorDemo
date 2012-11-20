@@ -39,7 +39,7 @@ public class OfferingFacade extends AbstractFacade implements Sandwichable {
 	}
 
 	@Override
-	public String getS() {
+	public synchronized String getS() {
 		switch (ID) {
 		case FALL:
 			return "F";

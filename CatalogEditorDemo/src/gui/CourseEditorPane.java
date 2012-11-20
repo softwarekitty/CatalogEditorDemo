@@ -22,7 +22,7 @@ import comments.CommentsPanel;
 @SuppressWarnings("serial")
 public class CourseEditorPane extends JPanel implements ActionListener {
 	private SaveButton saveButton;
-	public static final int WIDTH = 660;
+	public static final int WIDTH = 736;
 
 	public CourseEditorPane(Element course) {
 		// put a versionPanel above a save button
@@ -32,7 +32,7 @@ public class CourseEditorPane extends JPanel implements ActionListener {
 		saveButton.addActionListener(this);
 		saveButton.setEnabled(false);
 		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+		
 		add(getVersionPanel(course));
 	}
 

@@ -36,8 +36,9 @@ public class VersionFilter extends DocumentFilter {
 		if(Main.debug3){
 			System.out.println("in replace");	
 		}
-		if (length > 0)
+		if (length > 0){
 			fb.remove(offset, length);
+		}
 		insertString(fb, offset, string, attr);
 	}
 

@@ -26,17 +26,17 @@ public abstract class AbstractFacade implements Syncable {
 
 	public static final int EXPERIMENTAL = 0;// boolean attribute
 	public static final int TITLE = 1; // string element
-	public static final int DUAL = 2; // string element
-	public static final int CROSS = 3;// string element
+	public static final int DUAL = 2; // sandwich element
+	public static final int CROSS = 3;// sandwich element
 	public static final int PRIMARY = 4; // string element
 	public static final int SECONDARY = 5;// string element
 	public static final int CREDIT = 6; // string element
 	public static final int REPEATABLE = 7;// boolean attribute
-	public static final int MAXHOURS = 8;// string element
+	public static final int MAXHOURS = 8;// custom sandwich element
 	public static final int FALL = 9;// custom object handling presence/absence of a string element with 3 possible attributes
 	public static final int SPRING = 10;// custom object handling presence/absence of a string element with 3 possible attribu
 	public static final int SUMMER = 11; // custom object handling presence/absence of a string element with 3 possible attributes
-	public static final int PREREQ = 12;// string element
+	public static final int PREREQ = 12;// sandwich element
 	public static final int DESCRIPTION = 13;// string element
 	public static final int NONMAJORGC = 14;// boolean attribute
 	public static final int SFONLY = 15;// boolean attribute
@@ -68,7 +68,7 @@ public abstract class AbstractFacade implements Syncable {
 
 	public abstract void sync();
 	
-	public String getS() {
+	public synchronized String getS() {
 		return s;
 	}
 

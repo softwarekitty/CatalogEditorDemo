@@ -7,8 +7,13 @@ import gui.widget.SaveButton;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.DefaultStyledDocument.ElementSpec;
 
 import org.jdom2.Attribute;
 import org.jdom2.Document;
@@ -308,7 +313,49 @@ public class Util {
 			return false;
 		}
 	}
-
+	
+	public static Element getDefaultVersion(){
+		String changeMe = "default value - please change me and all values!";
+		Element newVersion = new Element("VERSION");
+		newVersion.setAttribute("catalogYear",Main.getDocument().getRootElement().getAttributeValue("currentYear"));
+		newVersion.setAttribute("experimental","false");
+		newVersion.setAttribute("sfOnly","false");
+		
+		Element title = new Element("TITLE");
+		title.setText(changeMe);
+		
+		Element primary = new Element("PRIMARY");
+		primary.setText("3");
+		
+		Element secondary = new Element("SECONDARY");
+		secondary.setText("0");
+		
+		Element cHours = new Element("CONTACTHOURS");
+		cHours.addContent(primary);
+		cHours.addContent(secondary);
+		
+		Element credit = new Element("CREDIT");
+		credit.setAttribute("repeatable","false");
+		credit.setAttribute("maxCreditCount","");
+		credit.setText("3");
+		
+		Element notes = new Element("NOTES");
+		notes.setAttribute("nonMajorGraduateCredit","false");
+		
+		
+		newVersion.addContent(title);
+		newVersion.addContent(new Element("DUAL"));
+		newVersion.addContent(new Element("CROSS"));
+		newVersion.addContent(cHours);
+		newVersion.addContent(credit);
+		newVersion.addContent(new Element("OFFERED"));
+		newVersion.addContent(new Element("PREREQ"));
+		newVersion.addContent(new Element("DESCRIPTION"));
+		newVersion.addContent(notes);
+		newVersion.addContent(new Element("COMMENTS"));
+		return newVersion;
+	}
+	
 	public static String getStringFromElement(Element e) {
 		String tagName = e.getName();
 		if (tagName.equals("HEADER")) {

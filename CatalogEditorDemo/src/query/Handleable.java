@@ -1,15 +1,9 @@
 package query;
 
+import gui.widget.AbstractHandle;
+
 public interface Handleable {
 	
-	public void removeHandle(QueryHandle toRemove);
-
-	public DisplayDialog getDisplay();
-	
-	public void setDisplay(DisplayDialog display);
-
-	public boolean displayInDialog();
-
-	public void display(String XMLexpression);
+	public void removeHandle(AbstractHandle toRemove);
 	
 }

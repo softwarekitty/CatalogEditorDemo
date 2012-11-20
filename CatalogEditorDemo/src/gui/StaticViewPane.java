@@ -13,15 +13,33 @@ import undecided.Util;
 @SuppressWarnings("serial")
 public class StaticViewPane extends JPanel{
 	
-	public StaticViewPane(Element programElement){
-		String toDisplay =  Util.getStringFromElement(programElement);
-		toDisplay = toDisplay==null?"nothing to display":toDisplay;
+	public StaticViewPane(Element element){
+		StaticDocument doc = new StaticDocument(element);
 		JTextPane text = new JTextPane();
-		text.setText(toDisplay);
+		text.setDocument(doc);
 		text.setEditable(false);
-		JScrollPane scrollPane =new JScrollPane(text);
-		scrollPane.setPreferredSize(new Dimension(CourseEditorPane.WIDTH, 700));
+		JScrollPane scrollPane = new JScrollPane(text);
+		scrollPane.setPreferredSize(new Dimension(700, 700));
 		add(scrollPane);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		String toDisplay =  Util.getStringFromElement(programElement);
+//		toDisplay = toDisplay==null?"nothing to display":toDisplay;
+//		JTextPane text = new JTextPane();
+//		text.setText(toDisplay);
+//		text.setEditable(false);
+//		JScrollPane scrollPane =new JScrollPane(text);
+//		scrollPane.setPreferredSize(new Dimension(700, 700));
+//		add(scrollPane);
 	}
-
 }

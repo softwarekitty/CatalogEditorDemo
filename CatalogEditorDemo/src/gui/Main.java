@@ -59,7 +59,7 @@ public class Main extends JApplet {
 	public static boolean debug1 = false; // xpath and threading debugging
 	public static boolean debug2 = true; // i/o debugging
 	public static boolean debug3 = false; // verbose
-	public static boolean debug4 = false; // auto opening sequence
+	public static boolean debug4 = true; // auto opening sequence
 	public static boolean debug5 = false; // listeners and event echo
 
 	/**
@@ -67,7 +67,8 @@ public class Main extends JApplet {
 	 */
 	public static void main(String[] args) {
 		frame = new JFrame();
-		frame.setPreferredSize(new Dimension(1000, 850));
+		//this is some Douglas Adams humor: the int value of '*' is 42, which happens to be what I need
+		frame.setPreferredSize(new Dimension(CourseEditorPane.WIDTH+CustomViewPane.TREE_WIDTH+'*', 850));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Setup menu options
@@ -200,6 +201,7 @@ public class Main extends JApplet {
 		frame.pack();
 	}
 
+	@SuppressWarnings("unused")
 	private static JComponent getViewFromSettings() {
 		if (editor == null) {
 			System.err
@@ -215,34 +217,61 @@ public class Main extends JApplet {
 
 		CustomTree tree = null;
 		if (viewToOpen.equals("permissions")) {
+
+			// create model, tree and listener
 			CustomTreeModel model = new CustomTreeModel(modelInfo[0][0],
 					modelInfo[0][1]);
 			tree = new CustomTree(model);
 			TreeSelectionListener listener = new PermissionsSelectionListener(
 					tree, rightPanel, model);
 			tree.addTreeSelectionListener(listener);
-			String selectedPath = editor.getAttributeValue("permissionsTreePath");
-			if(selectedPath==null||selectedPath.equals("")){
-				selectedPath = Util.getXPath(document.getRootElement());
+
+			// set the tree to the stored treePath if possible, root otherwise
+			Element start = null;
+			String selectedPath = editor
+					.getAttributeValue("permissionsTreePath");
+			if (selectedPath == null || selectedPath.equals("")) {
+				start = document.getRootElement();
+			} else {
+				start = Util.getElement(selectedPath);
+				if (start == null) {
+					start = document.getRootElement();
+				}
 			}
-			tree.setSelectionPath(new TreePath(Util.getElement(selectedPath)));
+			tree.setSelectionPath(new TreePath(start));
 		} else if (viewToOpen.equals("reports")) {
 			JPanel resultsPanel = new JPanel();
+
+			// try to pass in the last tab used, otherwise pass in "global"
+			String lastTabUsed = editor.getAttributeValue("tab");
+			if (lastTabUsed == null || lastTabUsed.equals("")) {
+				lastTabUsed = "global";
+			}
 			return new JSplitPane(JSplitPane.VERTICAL_SPLIT, true,
-					new QueryControlPane(resultsPanel), new JScrollPane(
-							resultsPanel));
+					new QueryControlPane(resultsPanel, lastTabUsed),
+					new JScrollPane(resultsPanel));
 		} else {
+
+			// create model, tree and listener
 			CustomTreeModel model = new CustomTreeModel(modelInfo[1][0],
 					modelInfo[1][1]);
 			tree = new CustomTree(model);
 			TreeSelectionListener listener = new EditingSelectionListener(tree,
 					rightPanel, model);
 			tree.addTreeSelectionListener(listener);
+
+			// set the tree to the stored treePath if possible, root otherwise
+			Element start = null;
 			String selectedPath = editor.getAttributeValue("editingTreePath");
-			if(selectedPath==null||selectedPath.equals("")){
-				selectedPath = Util.getXPath(document.getRootElement());
+			if (selectedPath == null || selectedPath.equals("")) {
+				start = document.getRootElement();
+			} else {
+				start = Util.getElement(selectedPath);
+				if (start == null) {
+					start = document.getRootElement();
+				}
 			}
-			tree.setSelectionPath(new TreePath(Util.getElement(selectedPath)));
+			tree.setSelectionPath(new TreePath(start));
 		}
 		return new CustomViewPane(tree, rightPanel);
 	}
@@ -266,17 +295,18 @@ public class Main extends JApplet {
 	// called by CredentialsDialog
 	public static void setEditor(Element newEditor) {
 		editor = newEditor;
-		if(editor!=null&&editor.getAttribute("netID")!=null){
+		if (editor != null && editor.getAttribute("netID") != null) {
 			Element editors = Util.getElement("CATALOG/EDITORS");
 			List<Element> list = editors.getChildren("EDITOR");
-			for(Element e:list){
-				if(editor.getAttribute("netID").equals(e.getAttribute("netID"))){
+			for (Element e : list) {
+				if (editor.getAttribute("netID")
+						.equals(e.getAttribute("netID"))) {
 					permissionsItem.setEnabled(true);
 					break;
 				}
 				permissionsItem.setEnabled(false);
 			}
-		}else{
+		} else {
 			permissionsItem.setEnabled(false);
 		}
 	}

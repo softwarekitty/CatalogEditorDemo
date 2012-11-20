@@ -16,9 +16,11 @@ import javax.swing.text.ViewFactory;
 public class VersionEditorKit extends StyledEditorKit {
 	ViewFactory defaultFactory = new VersionFactory();
 	private ChangeHandler ch;
+	private boolean colored;
 	
-	public VersionEditorKit(ChangeHandler ch){
+	public VersionEditorKit(ChangeHandler ch,boolean colored){
 		this.ch = ch;
+		this.colored = colored;
 	}
 
 	public ViewFactory getViewFactory() {
@@ -26,7 +28,7 @@ public class VersionEditorKit extends StyledEditorKit {
 	}
 
 	public Document createDefaultDocument() {
-		return new VersionDocument(ch);
+		return new VersionDocument(ch,colored);
 	}
 }
 

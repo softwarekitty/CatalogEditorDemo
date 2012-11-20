@@ -33,7 +33,7 @@ public class HeaderEditorPane extends JPanel implements ActionListener{
 				"EDITORS").getChildren("EDITOR");
 		ElementFacade ef = new ElementFacade(headerElement, saveButton,
 				null, HEADER);
-		headerField = new StringField(ef,editors, new Dimension(800,700));
+		headerField = new StringField(ef,editors, new Dimension(700,700));
 		add(headerField);
 		add(saveButton);
 	}

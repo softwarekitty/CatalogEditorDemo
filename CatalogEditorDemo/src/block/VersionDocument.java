@@ -27,25 +27,27 @@ public class VersionDocument extends DefaultStyledDocument {
 	private ArrayList<AbstractDocRange> ranges;
 	private ArrayList<ConstantRange> constants;
 	private ChangeHandler ch;
+	private boolean dynamic;
 
-	public VersionDocument(ChangeHandler ch) {
+	public VersionDocument(ChangeHandler ch,boolean dynamic) {
 		this.ch = ch;
+		this.dynamic = dynamic;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected void insertVersion(VersionFacade facade) {
+	public void insertVersion(VersionFacade facade) {
 		try {
 			SimpleAttributeSet attrs = new SimpleAttributeSet();
-
 			ArrayList vSpecs = new ArrayList();
 			vSpecs.add(new ElementSpec(attrs, ElementSpec.EndTagType));
 			vSpecs.add(new ElementSpec(attrs, ElementSpec.StartTagType));
 
-			addConstant(facade.getDesignator(), vSpecs);
+			addConstant(facade.getDesignator(), vSpecs,
+					AbstractFacade.EXPERIMENTAL);
 			addContent(facade.get(AbstractFacade.EXPERIMENTAL), vSpecs);
-			addConstant(". ", vSpecs);
+			addConstant(". ", vSpecs, AbstractFacade.EXPERIMENTAL);
 			addContent(facade.get(AbstractFacade.TITLE), vSpecs);
-			addConstant(". ", vSpecs);
+			addConstant(". ", vSpecs, AbstractFacade.TITLE);
 			addSandwichedContent(facade.get(AbstractFacade.DUAL), vSpecs);
 			addSandwichedContent(facade.get(AbstractFacade.CROSS), vSpecs);
 			addConstant("(", vSpecs);
@@ -71,25 +73,30 @@ public class VersionDocument extends DefaultStyledDocument {
 
 			this.insert(OFFSET, spec);
 
-			// initialize the list of all document ranges
-			initializeRanges(getElements(), facade);
+			// for dynamic docs, initialize the list of all document ranges
+			if(dynamic){
+				initializeRanges(getElements(), facade);
+			}
 
 		} catch (BadLocationException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	//the sandwich filler must be added, even if empty, so that there is a listener
-	//present, but the sandwiching constants should only be added if there is a filler
+	// the sandwich filler must be added, even if empty, so that there is a
+	// listener
+	// present, but the sandwiching constants should only be added if there is a
+	// filler
 	@SuppressWarnings({ "rawtypes" })
-	private void addSandwichedContent(AbstractFacade abstractFacade, ArrayList vSpecs) {
+	private void addSandwichedContent(AbstractFacade abstractFacade,
+			ArrayList vSpecs) {
 		Sandwichable sw = (Sandwichable) abstractFacade;
-		if(!sw.isEmpty()){
-			addConstant(sw.getLeft(), vSpecs);
+		if (!sw.isEmpty()) {
+			addConstant(sw.getLeft(), vSpecs, abstractFacade.getID());
 		}
 		addContent(abstractFacade, vSpecs);
-		if(!sw.isEmpty()){
-			addConstant(sw.getRight(), vSpecs);
+		if (!sw.isEmpty()) {
+			addConstant(sw.getRight(), vSpecs, abstractFacade.getID());
 		}
 	}
 
@@ -100,14 +107,27 @@ public class VersionDocument extends DefaultStyledDocument {
 			System.out.println("adding content with string:" + content
 					+ " and s: " + facade.getS());
 			int ID = facade.getID();
-			if(ID==AbstractFacade.FALL||ID==AbstractFacade.SPRING||ID==AbstractFacade.SUMMER){
-				OfferingFacade of = (OfferingFacade)facade;
-				System.out.println(" yearsOffered: "+of.getYearsOffered());
+			if (ID == AbstractFacade.FALL || ID == AbstractFacade.SPRING
+					|| ID == AbstractFacade.SUMMER) {
+				OfferingFacade of = (OfferingFacade) facade;
+				System.out.println(" yearsOffered: " + of.getYearsOffered());
 			}
 		}
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		attrs.addAttribute(ElementNameAttribute, facade.getName());
-		attrs.addAttribute(StyleConstants.Background, facade.getBlockColor());
+		if(dynamic){
+			attrs.addAttribute(StyleConstants.Background, facade.getBlockColor());		
+		}else{
+			attrs.addAttribute(StyleConstants.Background, Color.WHITE);
+		}
+		if (facade.getID() == AbstractFacade.EXPERIMENTAL
+				|| facade.getID() == AbstractFacade.TITLE) {
+			attrs.addAttribute(StyleConstants.CharacterConstants.Bold,
+					Boolean.TRUE);
+		} else if (facade.getID() == AbstractFacade.PREREQ) {
+			attrs.addAttribute(StyleConstants.CharacterConstants.Italic,
+					Boolean.TRUE);
+		}
 		attrs.addAttribute(PARAM_WIDTH, new Integer(content.length()));
 
 		ElementSpec start = new ElementSpec(attrs, ElementSpec.StartTagType);
@@ -120,14 +140,26 @@ public class VersionDocument extends DefaultStyledDocument {
 		vSpecs.add(end);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	private void addConstant(String content, ArrayList vSpecs) {
+		addConstant(content, vSpecs, -1);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void addConstant(String content, ArrayList vSpecs, int ID) {
 		if ("".equals(content)) {
 			return;
 		}
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
 		attrs.addAttribute(ElementNameAttribute, CONSTANT);
 		attrs.addAttribute(StyleConstants.Background, Color.WHITE);
+		if (ID == AbstractFacade.EXPERIMENTAL) {
+			attrs.addAttribute(StyleConstants.CharacterConstants.Bold,
+					Boolean.TRUE);
+		} else if (ID == AbstractFacade.PREREQ) {
+			attrs.addAttribute(StyleConstants.CharacterConstants.Italic,
+					Boolean.TRUE);
+		}
 		attrs.addAttribute(PARAM_WIDTH, new Integer(content.length()));
 
 		ElementSpec start = new ElementSpec(attrs, ElementSpec.StartTagType);

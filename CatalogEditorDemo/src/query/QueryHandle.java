@@ -1,6 +1,7 @@
 package query;
 
 import gui.Main;
+import gui.widget.AbstractHandle;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,29 +20,23 @@ import javax.swing.UIManager;
 import org.jdom2.Element;
 
 @SuppressWarnings("serial")
-public class QueryHandle extends JPanel implements ActionListener {
-	private Element queryElement;
-	private Handleable parent;
+public class QueryHandle extends AbstractHandle implements ActionListener {
 	private JPanel container;
-	private JButton deleteButton;
 	private JButton globalButton;
 	private JButton playButton;
 	private boolean isGlobal;
 	private boolean controlGlobal;
-	private boolean controlDelete;
 
-	public QueryHandle(Element queryElement, Handleable parent) {
-		this(queryElement, parent, true, true);
+	public QueryHandle(Element element, Handleable parent) {
+		this(element, parent, true, true);
 	}
 
-	public QueryHandle(Element queryElement, Handleable parent,
+	public QueryHandle(Element element, Handleable parent,
 			boolean controlGlobal, boolean controlDelete) {
-		this.parent = parent;
-		this.queryElement = queryElement;
+		super(element,parent);
 		this.controlGlobal = controlGlobal;
-		this.controlDelete = controlDelete;
 
-		isGlobal = Boolean.parseBoolean(queryElement
+		isGlobal = Boolean.parseBoolean(element
 				.getAttributeValue("global"));
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
@@ -54,9 +49,9 @@ public class QueryHandle extends JPanel implements ActionListener {
 		playButton.setContentAreaFilled(false);
 		container.add(playButton);
 
-		JTextArea text = new JTextArea(queryElement.getText());
+		JTextArea text = new JTextArea(element.getText());
 		text.setEditable(false);
-		text.setToolTipText(queryElement.getAttributeValue("description"));
+		text.setToolTipText(element.getAttributeValue("description"));
 		container.add(text);
 
 		if(controlGlobal){
@@ -68,10 +63,6 @@ public class QueryHandle extends JPanel implements ActionListener {
 		}
 
 		if(controlDelete){
-			deleteButton = new JButton(new ImageIcon("icon_x.gif"));
-			deleteButton.addActionListener(this);
-			deleteButton.setBorder(BorderFactory.createEmptyBorder());
-			deleteButton.setContentAreaFilled(false);
 			container.add(deleteButton);
 		}
 
@@ -91,23 +82,15 @@ public class QueryHandle extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (event.getSource() == deleteButton && controlDelete) {
-			int reply = JOptionPane.showConfirmDialog(null, "Confirm Delete",
-					"Really Delete Query?", JOptionPane.YES_NO_OPTION);
-			if (reply == JOptionPane.YES_OPTION) {
-				queryElement.getParentElement().removeContent(queryElement);
-				parent.removeHandle(this);
-				Main.repack();
-				Main.save();
-			}
-		} else if (event.getSource() == globalButton && controlGlobal) {
+		super.actionPerformed(event);
+		 if (event.getSource() == globalButton && controlGlobal) {
 			String message = isGlobal ? "Really Remove Global Status?"
 					: "Really Add Global Status?";
 			int reply = JOptionPane.showConfirmDialog(null, message,
 					"Set Global", JOptionPane.YES_NO_OPTION);
 			if (reply == JOptionPane.YES_OPTION) {
 				isGlobal = !isGlobal;
-				queryElement.setAttribute("global", Boolean.valueOf(isGlobal)
+				element.setAttribute("global", Boolean.valueOf(isGlobal)
 						.toString());
 				setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2,
 						getBorderColor()));
@@ -115,16 +98,17 @@ public class QueryHandle extends JPanel implements ActionListener {
 				Main.save();
 			}
 		} else if (event.getSource() == playButton) {
-			if (parent.displayInDialog()) {
-				DisplayDialog display = parent.getDisplay();
+			Displayable d = (Displayable)parent;
+			if (d.displayInDialog()) {
+				DisplayDialog display = d.getDisplay();
 				if (display != null) {
 					display.dispose();
 				}
-				parent.setDisplay(new DisplayDialog(Main.getFrame(),
-						queryElement.getAttributeValue("description"),
-						queryElement.getText()));
+				d.setDisplay(new DisplayDialog(Main.getFrame(),
+						element.getAttributeValue("description"),
+						element.getText()));
 			} else {
-				parent.display(queryElement.getText());
+				d.display(element.getText());
 			}
 
 		}
