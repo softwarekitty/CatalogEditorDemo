@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,20 +22,37 @@ import javax.swing.text.DocumentFilter;
 
 import org.jdom2.Element;
 
-import block.Range;
-import block.VersionDocument;
-import block.VersionFilter;
-
 import undecided.Util;
+import gui.Main;
 
+/**
+ * The Class CatalogSettingsPane allows the user to set the current year of the
+ * project. Anticipated use is for when time passes and the Catalog database is
+ * out of date. Currently only makes a default version for each course. 
+ */
+//TODO - Create new versions based on the previous year's versions.
 @SuppressWarnings("serial")
 public class CatalogSettingsPane extends JPanel implements ActionListener,
 		DocumentListener {
+
+	/** The catalog element. */
 	private Element catalogElement;
+
+	/** The current year. */
 	private JLabel currentYear;
+
+	/** The text. */
 	private JTextArea text;
+
+	/** The change button. */
 	private JButton changeButton;
 
+	/**
+	 * Instantiates a new catalog settings pane.
+	 * 
+	 * @param e
+	 *            the CATALOG element
+	 */
 	public CatalogSettingsPane(Element e) {
 		this.catalogElement = e;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -65,12 +81,22 @@ public class CatalogSettingsPane extends JPanel implements ActionListener,
 		add(changeButton);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == changeButton) {
-			int reply = JOptionPane.showConfirmDialog(null,
-					"Really Change Year To " + text.getText() + "?",
-					"Confirm Change", JOptionPane.YES_NO_OPTION);
+			int reply = JOptionPane
+					.showConfirmDialog(
+							null,
+							"Really Change Year To "
+									+ text.getText()
+									+ "?\nThis will create default versions\nof all courses for that year.",
+							"Confirm Change", JOptionPane.YES_NO_OPTION);
 			if (reply == JOptionPane.YES_OPTION) {
 				LinkedList<Element> courses = Util.getElements("//COURSE");
 				ArrayList<Element> versionsToReplace = new ArrayList<Element>();
@@ -87,16 +113,24 @@ public class CatalogSettingsPane extends JPanel implements ActionListener,
 					int response = JOptionPane
 							.showConfirmDialog(
 									null,
-									"Changing the year will replace "
+									"There are already "
 											+ versionsToReplace.size()
-											+ "\n existing versions with default versions.  \nSet year anyway?",
-									"Confirm Version Deletion",
+											+ " existing \nversions for the year "
+											+ text.getText()
+											+ ".  \nDo you want to replace them?\nSelecting no will just\nchange the catalog year\nwithout making default versions.",
+									"Deletion Existing Versions?",
 									JOptionPane.YES_NO_OPTION);
 					if (response == JOptionPane.YES_OPTION) {
-						setCatalogYear(courses);
 						for (Element oldVersion : versionsToReplace) {
-							oldVersion.detach();
+							oldVersion.getParentElement().removeContent(
+									oldVersion);
 						}
+						setCatalogYear(courses);
+					} else {
+						catalogElement.setAttribute("currentYear",
+								text.getText());
+						Main.repack();
+						Main.save();
 					}
 				} else {
 					setCatalogYear(courses);
@@ -105,6 +139,12 @@ public class CatalogSettingsPane extends JPanel implements ActionListener,
 		}
 	}
 
+	/**
+	 * Sets the catalog year.
+	 * 
+	 * @param courses
+	 *            the new catalog year
+	 */
 	private void setCatalogYear(LinkedList<Element> courses) {
 		catalogElement.setAttribute("currentYear", text.getText());
 		for (Element course : courses) {
@@ -114,22 +154,43 @@ public class CatalogSettingsPane extends JPanel implements ActionListener,
 		Main.save();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.
+	 * DocumentEvent)
+	 */
 	@Override
 	public void changedUpdate(DocumentEvent arg0) {
 		// do nothing
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.
+	 * DocumentEvent)
+	 */
 	@Override
 	public void insertUpdate(DocumentEvent arg0) {
 		handleChange();
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.
+	 * DocumentEvent)
+	 */
 	@Override
 	public void removeUpdate(DocumentEvent arg0) {
 		handleChange();
 	}
 
+	/**
+	 * Handle change.
+	 */
 	private void handleChange() {
 		if (text.getText().length() == 0) {
 			changeButton.setEnabled(false);
@@ -138,7 +199,18 @@ public class CatalogSettingsPane extends JPanel implements ActionListener,
 		}
 	}
 
+	/**
+	 * The Class YearFilter allows only entering integer input.
+	 */
 	class YearFilter extends DocumentFilter {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see javax.swing.text.DocumentFilter#insertString(javax.swing.text.
+		 * DocumentFilter.FilterBypass, int, java.lang.String,
+		 * javax.swing.text.AttributeSet)
+		 */
 		public void insertString(DocumentFilter.FilterBypass fb, int offset,
 				String string, AttributeSet attr) throws BadLocationException {
 			if (isInt(string)) {
@@ -146,6 +218,14 @@ public class CatalogSettingsPane extends JPanel implements ActionListener,
 			}
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * javax.swing.text.DocumentFilter#replace(javax.swing.text.DocumentFilter
+		 * .FilterBypass, int, int, java.lang.String,
+		 * javax.swing.text.AttributeSet)
+		 */
 		public void replace(DocumentFilter.FilterBypass fb, int offset,
 				int length, String string, AttributeSet attr)
 				throws BadLocationException {
@@ -158,6 +238,13 @@ public class CatalogSettingsPane extends JPanel implements ActionListener,
 			}
 		}
 
+		/**
+		 * Checks if is int.
+		 * 
+		 * @param s
+		 *            the string to check
+		 * @return true, if is int
+		 */
 		public boolean isInt(String s) {
 			try {
 				Integer.parseInt(s);

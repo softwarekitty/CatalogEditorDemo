@@ -15,13 +15,30 @@ import facade.ElementFacade;
 import field.StringField;
 import gui.widget.SaveButton;
 
+
+/**
+ * The Class ReservedNumbersPane allows editing of RESERVEDNUMBERS element.
+ */
 @SuppressWarnings("serial")
 public class ReservedNumbersPane extends JPanel implements ActionListener{
+	
+	/** The Constant RESERVEDNUMBERS. */
 	public static final int RESERVEDNUMBERS = 363;
+	
+	/** The reserved numbers element. */
 	private Element reservedNumbersElement;
+	
+	/** The numbers field. */
 	private StringField numbersField;
+	
+	/** The save button. */
 	private SaveButton saveButton;
 	
+	/**
+	 * Instantiates a new reserved numbers pane.
+	 *
+	 * @param reElement the re element
+	 */
 	public ReservedNumbersPane(Element reElement) {
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		this.reservedNumbersElement = reElement;
@@ -35,11 +52,14 @@ public class ReservedNumbersPane extends JPanel implements ActionListener{
 				"EDITORS").getChildren("EDITOR");
 		ElementFacade ef = new ElementFacade(reservedNumbersElement, saveButton,
 				null, RESERVEDNUMBERS);
-		numbersField = new StringField(ef,editors, new Dimension(700,200));
+		numbersField = new StringField(ef,editors, new Dimension(700,200),true);
 		add(numbersField);
 		add(saveButton);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		saveButton.save();

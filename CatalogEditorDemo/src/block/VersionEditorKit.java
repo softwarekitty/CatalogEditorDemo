@@ -12,23 +12,53 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 
+/**
+ * The Class VersionEditorKit is used to add the document to the JEditorPane in
+ * BlockPanel. That could be done another way, so this is not essential. It
+ * does, however, provide a nice way to add custom views if desired. That was
+ * the original reason for its inclusion and why it could be useful later.
+ */
 @SuppressWarnings("serial")
 public class VersionEditorKit extends StyledEditorKit {
+
+	/** The default factory. */
 	ViewFactory defaultFactory = new VersionFactory();
+
+	/** The ch. */
 	private ChangeHandler ch;
+
+	/** The colored. */
 	private boolean colored;
-	
-	public VersionEditorKit(ChangeHandler ch,boolean colored){
+
+	/**
+	 * Instantiates a new version editor kit.
+	 * 
+	 * @param ch
+	 *            the ch
+	 * @param colored
+	 *            the colored
+	 */
+	public VersionEditorKit(ChangeHandler ch, boolean colored) {
 		this.ch = ch;
 		this.colored = colored;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.text.StyledEditorKit#getViewFactory()
+	 */
 	public ViewFactory getViewFactory() {
 		return defaultFactory;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.text.StyledEditorKit#createDefaultDocument()
+	 */
 	public Document createDefaultDocument() {
-		return new VersionDocument(ch,colored);
+		return new VersionDocument(ch, colored);
 	}
 }
 

@@ -6,18 +6,32 @@ import java.util.List;
 
 import org.jdom2.Element;
 
-/*
- * to organize this conceptually, creation of a term is done through the yearsOffered variable,
+/**
+ * To organize this conceptually, creation of a term is done through the yearsOffered variable,
  * but deletion can be done by setting that to none, or by trying to set S in the block view to 
  * something other than the term it should be.  There should never be a term element in the xml 
  * doc with yearsOffered="none" but if the term is not in the document, this facade should still 
  * exist and have that set to none.
  */
 public class OfferingFacade extends AbstractFacade implements Sandwichable {
+	
+	/** The Constant yearsOfferedValues. */
 	public static final String[] yearsOfferedValues = { "none", "odd", "even", "all" };
+	
+	/** The offering element. */
 	private Element offeringElement;
+	
+	/** The years offered. */
 	private String yearsOffered;
 
+	/**
+	 * Instantiates a new offering facade.
+	 *
+	 * @param offeringElement the offering element
+	 * @param saveButton the save button
+	 * @param vFacade the v facade
+	 * @param ID the ID
+	 */
 	public OfferingFacade(Element offeringElement, SaveButton saveButton,
 			VersionFacade vFacade, int ID) {
 		super(saveButton, vFacade, ID);
@@ -34,10 +48,18 @@ public class OfferingFacade extends AbstractFacade implements Sandwichable {
 		}
 	}
 
+	/**
+	 * Checks for term.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean hasTerm() {
 		return !getYearsOffered().equals(yearsOfferedValues[0]);
 	}
 
+	/* (non-Javadoc)
+	 * @see facade.AbstractFacade#getS()
+	 */
 	@Override
 	public synchronized String getS() {
 		switch (ID) {
@@ -52,6 +74,9 @@ public class OfferingFacade extends AbstractFacade implements Sandwichable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see facade.AbstractFacade#sync()
+	 */
 	@Override
 	public void sync() {
 		Element e = getTermElement();
@@ -76,15 +101,28 @@ public class OfferingFacade extends AbstractFacade implements Sandwichable {
 		handleChange();
 	}
 
+	/**
+	 * Sets the years offered.
+	 *
+	 * @param yo the new years offered
+	 */
 	public void setYearsOffered(String yo) {
 		yearsOffered = yo;
 		handleChange();
 	}
 
+	/**
+	 * Gets the years offered.
+	 *
+	 * @return the years offered
+	 */
 	public String getYearsOffered() {
 		return yearsOffered;
 	}
 
+	/* (non-Javadoc)
+	 * @see facade.AbstractFacade#facadeMatchesDocument()
+	 */
 	@Override
 	public boolean facadeMatchesDocument() {
 		Element e = getTermElement();
@@ -105,6 +143,9 @@ public class OfferingFacade extends AbstractFacade implements Sandwichable {
 	 * for a term, s has to match the term offered, so setting it to something
 	 * else is the same as deleting the term
 	 */
+	/* (non-Javadoc)
+	 * @see facade.AbstractFacade#setS(java.lang.String)
+	 */
 	@Override
 	public synchronized void setS(String s) {
 		if (!getS().equals(s)) {
@@ -116,6 +157,9 @@ public class OfferingFacade extends AbstractFacade implements Sandwichable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see facade.AbstractFacade#needsSyncing()
+	 */
 	@Override
 	public boolean needsSyncing() {
 		return termExists() ? hasUnsavedChanges : false;
@@ -125,6 +169,11 @@ public class OfferingFacade extends AbstractFacade implements Sandwichable {
 	 * this is the least efficient facade. Every time the save button checks all
 	 * its syncables, this has to peek in at the children of the offering
 	 * element and see if it contains a term for this one
+	 */
+	/**
+	 * Gets the term element.
+	 *
+	 * @return the term element
 	 */
 	private Element getTermElement() {
 		List<Element> offerings = offeringElement.getChildren();
@@ -136,22 +185,39 @@ public class OfferingFacade extends AbstractFacade implements Sandwichable {
 		return null;
 	}
 
+	/**
+	 * Term exists.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean termExists() {
 		return getTermElement() != null;
 	}
 
+	/* (non-Javadoc)
+	 * @see facade.Sandwichable#getLeft()
+	 */
 	public String getLeft() {
 		return getYearsOffered().equals(yearsOfferedValues[3])?"":getYearsOffered()+" ";
 	}
 
+	/* (non-Javadoc)
+	 * @see facade.AbstractFacade#isEmpty()
+	 */
 	public boolean isEmpty() {
 		return !hasTerm();
 	}
 
+	/* (non-Javadoc)
+	 * @see facade.Sandwichable#getRight()
+	 */
 	public String getRight() {
 		return ". ";
 	}
 
+	/* (non-Javadoc)
+	 * @see facade.AbstractFacade#toString()
+	 */
 	@Override
 	public String toString() {
 		if (hasTerm()) {

@@ -14,13 +14,30 @@ import javax.swing.JTextField;
 
 import org.jdom2.Element;
 
+
+/**
+ * The Class PermissionsPane is used to add or remove editors from a particular group.
+ */
 @SuppressWarnings("serial")
 public class PermissionsPane extends JPanel implements ActionListener {
+	
+	/** The editors element. */
 	private Element editorsElement;
+	
+	/** The container. */
 	private JPanel container;
+	
+	/** The field. */
 	private JTextField field;
+	
+	/** The add button. */
 	private JButton addButton;
 
+	/**
+	 * Instantiates a new permissions pane.
+	 *
+	 * @param editorsElement the editors element
+	 */
 	public PermissionsPane(Element editorsElement) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(getAdditionPane());
@@ -36,6 +53,11 @@ public class PermissionsPane extends JPanel implements ActionListener {
 		add(container);
 	}
 
+	/**
+	 * Gets the addition pane.
+	 *
+	 * @return the addition pane
+	 */
 	private JPanel getAdditionPane() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -48,10 +70,18 @@ public class PermissionsPane extends JPanel implements ActionListener {
 		return panel;
 	}
 	
+	/**
+	 * Removes the handle.
+	 *
+	 * @param toRemove the to remove
+	 */
 	public void removeHandle(EditorHandle toRemove){
 		container.remove(toRemove);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == addButton) {

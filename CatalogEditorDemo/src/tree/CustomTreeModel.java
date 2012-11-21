@@ -13,16 +13,28 @@ import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
 
 /**
- * the two methods not implemented by CustomTreeModel give extending classes the
- * freedom to display an xml document with visible nodes nested to any depth
- * within visible nodes, so that the same document may be viewable in different
- * ways.
+ * The CustomTreeModel allows constructor arguments to specify what nodes to
+ * display in an xml document with visible nodes nested to any depth within
+ * visible nodes, so that the same document may be viewable in different ways.
  * 
  */
+//TODO - write tests for these methods
 public class CustomTreeModel implements TreeModel {
+
+	/** The visible elements. */
 	private LinkedList<String> visibleElements;
+
+	/** The leaves. */
 	private LinkedList<String> leaves;
 
+	/**
+	 * Instantiates a new custom tree model.
+	 * 
+	 * @param visibleElements
+	 *            the visible elements
+	 * @param leaves
+	 *            the leaves
+	 */
 	public CustomTreeModel(String[] visibleElements, String[] leaves) {
 		this.visibleElements = new LinkedList<String>(
 				Arrays.asList(visibleElements));
@@ -30,21 +42,41 @@ public class CustomTreeModel implements TreeModel {
 	}
 
 	// these will be leaf nodes
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
+	 */
 	@Override
 	public boolean isLeaf(Object node) {
 		return leaves.contains(((Element) node).getName());
 	}
 
 	// these will be visible as leaves or folders
+	/**
+	 * Gets the visible elements.
+	 * 
+	 * @return the visible elements
+	 */
 	public LinkedList<String> getVisibleElements() {
 		return visibleElements;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeModel#getRoot()
+	 */
 	@Override
 	public Object getRoot() {
 		return Main.getDocument().getRootElement();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
+	 */
 	@Override
 	public int getChildCount(Object parent) {
 		Element parentElement = (Element) parent;
@@ -66,6 +98,11 @@ public class CustomTreeModel implements TreeModel {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
+	 */
 	@Override
 	public Object getChild(Object parent, int index) {
 		Element parentElement = (Element) parent;
@@ -104,6 +141,12 @@ public class CustomTreeModel implements TreeModel {
 	// visibleChildrenPassed++;
 	// }
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object,
+	 * java.lang.Object)
+	 */
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
 		Element parentElement = (Element) parent;
@@ -162,6 +205,11 @@ public class CustomTreeModel implements TreeModel {
 	// childIndex++;
 	// }
 
+	/**
+	 * Gets the visible filter.
+	 * 
+	 * @return the visible filter
+	 */
 	protected ElementFilter getVisibleFilter() {
 		LinkedList<String> visibleElements = getVisibleElements();
 		ElementFilter visibleFilter = null;
@@ -178,16 +226,36 @@ public class CustomTreeModel implements TreeModel {
 
 	// ******//
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.
+	 * TreeModelListener)
+	 */
 	@Override
 	public void addTreeModelListener(TreeModelListener l) {
 		// do nothing
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.
+	 * TreeModelListener)
+	 */
 	@Override
 	public void removeTreeModelListener(TreeModelListener l) {
 		// do nothing
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.swing.tree.TreeModel#valueForPathChanged(javax.swing.tree.TreePath,
+	 * java.lang.Object)
+	 */
 	@Override
 	public void valueForPathChanged(TreePath path, Object newValue) {
 		// do nothing

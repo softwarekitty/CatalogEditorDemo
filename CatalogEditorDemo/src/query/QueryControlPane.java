@@ -33,18 +33,47 @@ import org.jdom2.output.XMLOutputter;
 
 import undecided.Util;
 
+/**
+ * The Class QueryControlPane helps the user create and manage their queries,
+ * investigate global and other saved queries, and view the results of any
+ * query.
+ */
 @SuppressWarnings("serial")
 public class QueryControlPane extends JPanel implements ActionListener,
 		Handleable, ItemListener, ChangeListener, Displayable {
+
+	/** The results panel. */
 	private JPanel resultsPanel;
+
+	/** The t pane. */
 	private JTabbedPane tPane;
+
+	/** The display. */
 	private DisplayDialog display;
+
+	/** The description field. */
 	private JTextField descriptionField;
+
+	/** The query field. */
 	private JTextField queryField;
+
+	/** The add button. */
 	private JButton addButton;
+
+	/** The run button. */
 	private JButton runButton;
+
+	/** The display in box. */
 	private JCheckBox displayInBox;
 
+	/**
+	 * Instantiates a new query control pane.
+	 * 
+	 * @param resultsPanel
+	 *            the results panel
+	 * @param lastTabUsed
+	 *            the last tab used
+	 */
 	public QueryControlPane(JPanel resultsPanel, String lastTabUsed) {
 		this.resultsPanel = resultsPanel;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -54,8 +83,8 @@ public class QueryControlPane extends JPanel implements ActionListener,
 		tPane.add("global", getGlobalPane());
 		tPane.add("mine", getMinePane());
 		tPane.add("all", getAllPane());
-		for(int i=0;i<tPane.getTabCount();i++){
-			if(tPane.getTitleAt(i).equals(lastTabUsed)){
+		for (int i = 0; i < tPane.getTabCount(); i++) {
+			if (tPane.getTitleAt(i).equals(lastTabUsed)) {
 				tPane.setSelectedIndex(i);
 				break;
 			}
@@ -63,6 +92,11 @@ public class QueryControlPane extends JPanel implements ActionListener,
 		add(tPane, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Gets the new pane.
+	 * 
+	 * @return the new pane
+	 */
 	private JPanel getNewPane() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -105,6 +139,15 @@ public class QueryControlPane extends JPanel implements ActionListener,
 		return panel;
 	}
 
+	/**
+	 * Gets the query panel.
+	 * 
+	 * @param xPathExpression
+	 *            the x path expression
+	 * @param controlDelete
+	 *            the control delete
+	 * @return the query panel
+	 */
 	private ContainerPanel getQueryPanel(String xPathExpression,
 			boolean controlDelete) {
 		ContainerPanel panel = new ContainerPanel();
@@ -125,25 +168,50 @@ public class QueryControlPane extends JPanel implements ActionListener,
 		return panel;
 	}
 
+	/**
+	 * Gets the global pane.
+	 * 
+	 * @return the global pane
+	 */
 	private ContainerPanel getGlobalPane() {
 		return getQueryPanel("//QUERY[@global=\"true\"]", false);
 	}
 
+	/**
+	 * Gets the mine pane.
+	 * 
+	 * @return the mine pane
+	 */
 	private ContainerPanel getMinePane() {
 		return getQueryPanel("//QUERY[@author=\""
 				+ Main.getEditor().getAttributeValue("netID") + "\"]", true);
 	}
 
+	/**
+	 * Gets the all pane.
+	 * 
+	 * @return the all pane
+	 */
 	private ContainerPanel getAllPane() {
 		return getQueryPanel("//QUERY", false);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see query.Handleable#removeHandle(gui.widget.AbstractHandle)
+	 */
 	@Override
 	public void removeHandle(AbstractHandle toRemove) {
 		((ContainerPanel) tPane.getSelectedComponent()).getContainerPanel()
 				.remove(toRemove);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see query.Displayable#display(java.lang.String)
+	 */
 	@Override
 	public void display(String xPathExpression) {
 		LinkedList<Element> elements = Util.getElements(xPathExpression);
@@ -161,6 +229,11 @@ public class QueryControlPane extends JPanel implements ActionListener,
 		Main.repack();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see query.Displayable#displayInDialog()
+	 */
 	@Override
 	public boolean displayInDialog() {
 		Element editor = Main.getEditor();
@@ -177,16 +250,32 @@ public class QueryControlPane extends JPanel implements ActionListener,
 		return Boolean.parseBoolean(displayInDialog);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see query.Displayable#getDisplay()
+	 */
 	@Override
 	public DisplayDialog getDisplay() {
 		return display;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see query.Displayable#setDisplay(query.DisplayDialog)
+	 */
 	@Override
 	public void setDisplay(DisplayDialog display) {
 		this.display = display;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == runButton) {
@@ -244,6 +333,12 @@ public class QueryControlPane extends JPanel implements ActionListener,
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent event) {
 		if (event.getSource() == displayInBox) {
@@ -260,6 +355,13 @@ public class QueryControlPane extends JPanel implements ActionListener,
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent
+	 * )
+	 */
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
 		Main.setEditorSetting("tab", tPane.getTitleAt(tPane.getSelectedIndex()));

@@ -14,9 +14,21 @@ import org.jdom2.Element;
 import query.Handleable;
 import undecided.Util;
 
+/**
+ * The Class CourseHandle provides a handle for seeing what courses exist and
+ * allows deletion of them.
+ */
 @SuppressWarnings("serial")
 public class CourseHandle extends AbstractHandle implements ActionListener {
 
+	/**
+	 * Instantiates a new course handle.
+	 * 
+	 * @param course
+	 *            the course
+	 * @param parent
+	 *            the parent
+	 */
 	public CourseHandle(Element course, Handleable parent) {
 		super(course, parent);
 		JPanel container = new JPanel();

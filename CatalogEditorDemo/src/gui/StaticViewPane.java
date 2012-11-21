@@ -8,11 +8,18 @@ import javax.swing.JTextPane;
 
 import org.jdom2.Element;
 
-import undecided.Util;
 
+/**
+ * The Class StaticViewPane displays the Static Document.
+ */
 @SuppressWarnings("serial")
 public class StaticViewPane extends JPanel{
 	
+	/**
+	 * Instantiates a new static view pane.
+	 *
+	 * @param element the element
+	 */
 	public StaticViewPane(Element element){
 		StaticDocument doc = new StaticDocument(element);
 		JTextPane text = new JTextPane();
@@ -21,25 +28,5 @@ public class StaticViewPane extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(text);
 		scrollPane.setPreferredSize(new Dimension(700, 700));
 		add(scrollPane);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		String toDisplay =  Util.getStringFromElement(programElement);
-//		toDisplay = toDisplay==null?"nothing to display":toDisplay;
-//		JTextPane text = new JTextPane();
-//		text.setText(toDisplay);
-//		text.setEditable(false);
-//		JScrollPane scrollPane =new JScrollPane(text);
-//		scrollPane.setPreferredSize(new Dimension(700, 700));
-//		add(scrollPane);
 	}
 }

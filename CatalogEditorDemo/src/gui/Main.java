@@ -40,30 +40,61 @@ import tree.EditingSelectionListener;
 import tree.PermissionsSelectionListener;
 import undecided.Util;
 
+
+/**
+ * The Class Main.
+ */
 @SuppressWarnings("serial")
 public class Main extends JApplet {
+	
+	/** The frame. */
 	private static JFrame frame;
+	
+	/** The view. */
 	private static JComponent view;
+	
+	/** The document. */
 	private static Document document;
+	
+	/** The default settings. */
 	private static String[] defaultSettings = { "editingView" };
+	
+	/** The model info. */
 	private static String[][][] modelInfo = {
 			{
 					{ "RESERVEDNUMBERS", "EDITORS", "COLLEGES", "COLLEGE",
 							"PROGRAMS", "PROGRAM", "QUERIES" },
 					{ "EDITORS", "RESERVEDNUMBERS", "QUERIES" } },
 			{ { "HEADER", "PROGRAM", "COURSE" }, { "HEADER", "COURSE" } } };
+	
+	/** The editor. */
 	private static Element editor;
+	
+	/** The current file. */
 	private static File currentFile;
-	private static JMenuItem permissionsItem;
+	
+	/** The permissions item. */
+	private static JMenuItem adminItem;
 
+	/** The debug1. */
 	public static boolean debug1 = false; // xpath and threading debugging
+	
+	/** The debug2. */
 	public static boolean debug2 = true; // i/o debugging
+	
+	/** The debug3. */
 	public static boolean debug3 = false; // verbose
+	
+	/** The debug4. */
 	public static boolean debug4 = true; // auto opening sequence
+	
+	/** The debug5. */
 	public static boolean debug5 = false; // listeners and event echo
 
 	/**
-	 * @param args
+	 * The main method.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		frame = new JFrame();
@@ -127,13 +158,13 @@ public class Main extends JApplet {
 			}
 		});
 
-		permissionsItem = viewMenu.add("Permissions");
-		permissionsItem.setMnemonic(KeyEvent.VK_P);
-		permissionsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+		adminItem = viewMenu.add("Admin");
+		adminItem.setMnemonic(KeyEvent.VK_A);
+		adminItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
 				Event.CTRL_MASK));
-		permissionsItem.addActionListener(new AbstractAction("Permissions") {
+		adminItem.addActionListener(new AbstractAction("Admin") {
 			public void actionPerformed(ActionEvent e) {
-				setEditorSetting("lastView", "permissions");
+				setEditorSetting("lastView", "admin");
 				setupView();
 			}
 		});
@@ -162,6 +193,9 @@ public class Main extends JApplet {
 		}
 	}
 
+	/**
+	 * Save.
+	 */
 	public static void save() {
 		XMLOutputter output = new XMLOutputter(Format.getPrettyFormat());
 		try {
@@ -179,6 +213,11 @@ public class Main extends JApplet {
 		}
 	}
 
+	/**
+	 * Open.
+	 *
+	 * @param file the file
+	 */
 	private static void open(File file) {
 		document = Util.buildDocument(file);
 		if (debug4) {
@@ -195,13 +234,20 @@ public class Main extends JApplet {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Setup view.
+	 */
 	private static void setupView() {
 		view = getViewFromSettings();
 		frame.setContentPane(view);
 		frame.pack();
 	}
 
-	@SuppressWarnings("unused")
+	/**
+	 * Gets the view from settings.
+	 *
+	 * @return the view from settings
+	 */
 	private static JComponent getViewFromSettings() {
 		if (editor == null) {
 			System.err
@@ -276,6 +322,12 @@ public class Main extends JApplet {
 		return new CustomViewPane(tree, rightPanel);
 	}
 
+	/**
+	 * Sets the editor setting.
+	 *
+	 * @param attribute the attribute
+	 * @param value the value
+	 */
 	public static void setEditorSetting(String attribute, String value) {
 		if (editor == null) {
 			return;
@@ -288,11 +340,21 @@ public class Main extends JApplet {
 		Main.save();
 	}
 
+	/**
+	 * Gets the document.
+	 *
+	 * @return the document
+	 */
 	public static Document getDocument() {
 		return document;
 	}
 
 	// called by CredentialsDialog
+	/**
+	 * Sets the editor.
+	 *
+	 * @param newEditor the new editor
+	 */
 	public static void setEditor(Element newEditor) {
 		editor = newEditor;
 		if (editor != null && editor.getAttribute("netID") != null) {
@@ -301,24 +363,37 @@ public class Main extends JApplet {
 			for (Element e : list) {
 				if (editor.getAttribute("netID")
 						.equals(e.getAttribute("netID"))) {
-					permissionsItem.setEnabled(true);
+					adminItem.setEnabled(true);
 					break;
 				}
-				permissionsItem.setEnabled(false);
+				adminItem.setEnabled(false);
 			}
 		} else {
-			permissionsItem.setEnabled(false);
+			adminItem.setEnabled(false);
 		}
 	}
 
+	/**
+	 * Gets the editor.
+	 *
+	 * @return the editor
+	 */
 	public static Element getEditor() {
 		return editor;
 	}
 
+	/**
+	 * Gets the frame.
+	 *
+	 * @return the frame
+	 */
 	public static JFrame getFrame() {
 		return frame;
 	}
 
+	/**
+	 * Repack.
+	 */
 	public static void repack() {
 		frame.pack();
 		if (debug3) {

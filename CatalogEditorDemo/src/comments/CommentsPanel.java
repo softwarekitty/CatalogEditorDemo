@@ -25,14 +25,41 @@ import javax.swing.event.DocumentListener;
 
 import org.jdom2.Element;
 
+/**
+ * The Class CommentsPanel contains an inner class - CommentPanel, which
+ * represents one comment. Users are only allowed one comment per version, so if
+ * they try to add a comment when they already have one, the one they have
+ * blinks a few times as if to say, hey just write in this one. This is to save
+ * space and simplify implementation. 
+ */
+// TODO - The inner CommentPanel class could probably be brought out and made to extend
+// AbstractHandle.
 @SuppressWarnings("serial")
 public class CommentsPanel extends JPanel implements ActionListener {
+
+	/** The comment map. */
 	private HashMap<String, CommentPanel> commentMap;
+
+	/** The plus button. */
 	private JButton plusButton;
+
+	/** The save button. */
 	private SaveButton saveButton;
+
+	/** The comments element. */
 	private Element commentsElement;
+
+	/** The comment holder. */
 	private JPanel commentHolder;
 
+	/**
+	 * Instantiates a new comments panel.
+	 * 
+	 * @param commentsElement
+	 *            the comments element
+	 * @param saveButton
+	 *            the save button
+	 */
 	public CommentsPanel(Element commentsElement, SaveButton saveButton) {
 		this.commentsElement = commentsElement;
 		this.saveButton = saveButton;
@@ -51,18 +78,37 @@ public class CommentsPanel extends JPanel implements ActionListener {
 			commentHolder.add(c);
 		}
 		add(commentHolder);
-		//add(new JScrollPane(commentHolder));
+		// add(new JScrollPane(commentHolder));
 		add(plusButton);
 		setMaximumSize(new Dimension(CourseEditorPane.WIDTH, 200));
 	}
 
+	/**
+	 * The Class CommentPanel.
+	 */
 	class CommentPanel extends JPanel implements DocumentListener, Syncable {
+
+		/** The author. */
 		private String author;
+
+		/** The comment element. */
 		private Element commentElement;
+
+		/** The edit pane. */
 		private JTextPane edit;
+
+		/** The has unsaved changes. */
 		private boolean hasUnsavedChanges;
+
+		/** The container. */
 		private JPanel container;
 
+		/**
+		 * Instantiates a new comment panel.
+		 * 
+		 * @param commentElement
+		 *            the comment element
+		 */
 		public CommentPanel(Element commentElement) {
 			this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 			container = new JPanel();
@@ -98,41 +144,84 @@ public class CommentsPanel extends JPanel implements ActionListener {
 			}
 		}
 
+		/**
+		 * Initialize new comment.
+		 */
 		public void initializeNewComment() {
 			edit.setText("write comment here");
 			edit.selectAll();
 			handleChange();
 		}
 
+		/**
+		 * Blink.
+		 * 
+		 * @param c
+		 *            the c
+		 */
 		public void blink(Color c) {
 			container.setBackground(c);
 		}
 
+		/**
+		 * Gets the author.
+		 * 
+		 * @return the author
+		 */
 		public String getAuthor() {
 			return author;
 		}
 
+		/**
+		 * Gets the element.
+		 * 
+		 * @return the element
+		 */
 		public Element getElement() {
 			return commentElement;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * javax.swing.event.DocumentListener#changedUpdate(javax.swing.event
+		 * .DocumentEvent)
+		 */
 		@Override
 		public void changedUpdate(DocumentEvent arg0) {
 			// do nothing
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * javax.swing.event.DocumentListener#insertUpdate(javax.swing.event
+		 * .DocumentEvent)
+		 */
 		@Override
 		public void insertUpdate(DocumentEvent arg0) {
 			handleChange();
 
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * javax.swing.event.DocumentListener#removeUpdate(javax.swing.event
+		 * .DocumentEvent)
+		 */
 		@Override
 		public void removeUpdate(DocumentEvent arg0) {
 			handleChange();
 
 		}
 
+		/**
+		 * Handle change.
+		 */
 		private void handleChange() {
 			if (edit.getText().equals(commentElement.getText())) {
 				hasUnsavedChanges = false;
@@ -145,6 +234,11 @@ public class CommentsPanel extends JPanel implements ActionListener {
 			}
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see facade.Syncable#sync()
+		 */
 		@Override
 		public void sync() {
 			hasUnsavedChanges = false;
@@ -152,12 +246,23 @@ public class CommentsPanel extends JPanel implements ActionListener {
 			container.setBackground(Color.WHITE);
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see facade.Syncable#needsSyncing()
+		 */
 		@Override
 		public boolean needsSyncing() {
 			return hasUnsavedChanges;
 		}
 	}
 
+	/**
+	 * Removes the comment.
+	 * 
+	 * @param cp
+	 *            the cp
+	 */
 	public void removeComment(CommentPanel cp) {
 		commentHolder.remove(cp);
 		saveButton.removeFromList(cp);
@@ -167,6 +272,12 @@ public class CommentsPanel extends JPanel implements ActionListener {
 		Main.repack();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == plusButton) {
@@ -189,18 +300,37 @@ public class CommentsPanel extends JPanel implements ActionListener {
 				commentMap.put(currentEditor, newPanel);
 				commentHolder.add(newPanel);
 				newPanel.initializeNewComment();
+				Main.repack();
 			}
 		}
 	}
 
+	/**
+	 * The Class CommentBlinker.
+	 */
 	class CommentBlinker extends Thread {
+
+		/** The panel. */
 		private CommentPanel panel;
+
+		/** The blink. */
 		private boolean blink;
 
+		/**
+		 * Instantiates a new comment blinker.
+		 * 
+		 * @param panel
+		 *            the panel
+		 */
 		public CommentBlinker(CommentPanel panel) {
 			this.panel = panel;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Thread#run()
+		 */
 		public void run() {
 			blink = true;
 			for (int i = 0; i < 8; i++) {

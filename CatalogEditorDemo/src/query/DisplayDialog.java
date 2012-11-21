@@ -13,9 +13,20 @@ import org.jdom2.output.XMLOutputter;
 
 import undecided.Util;
 
+
+/**
+ * The Class DisplayDialog pops up and displays an xquery result.
+ */
 @SuppressWarnings("serial")
 public class DisplayDialog extends JDialog {
 
+	/**
+	 * Instantiates a new display dialog.
+	 *
+	 * @param frame the frame
+	 * @param title the title
+	 * @param xPathExpression the x path expression
+	 */
 	public DisplayDialog(JFrame frame, String title, String xPathExpression) {
 		super(frame, title, false);
 		LinkedList<Element> elements = Util.getElements(xPathExpression);

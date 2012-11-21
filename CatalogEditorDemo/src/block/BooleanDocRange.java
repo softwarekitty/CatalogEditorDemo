@@ -6,16 +6,36 @@ import facade.BooleanBlockFacade;
 import facade.StringListener;
 import gui.Main;
 
+
+/**
+ * The Class BooleanDocRange represents a block of text backed by a boolean block facade.
+ */
 public class BooleanDocRange extends AbstractDocRange implements StringListener {
+	
+	/**
+	 * Instantiates a new boolean doc range.
+	 *
+	 * @param textElement the text element
+	 * @param facade the facade
+	 * @param ch the ChangeHandler
+	 */
 	public BooleanDocRange(Element textElement, BooleanBlockFacade facade,
 			ChangeHandler ch) {
 		super(textElement, facade, ch);
 	}
 
+	/**
+	 * Facade.
+	 *
+	 * @return the boolean block facade
+	 */
 	private BooleanBlockFacade facade() {
 		return (BooleanBlockFacade) facade;
 	}
 
+	/* (non-Javadoc)
+	 * @see block.AbstractDocRange#react(boolean, java.lang.String)
+	 */
 	@Override
 	public void react(boolean hasUnsavedChanges, String s) {
 		if (Main.debug3) {
@@ -36,10 +56,4 @@ public class BooleanDocRange extends AbstractDocRange implements StringListener 
 			resetEverything();
 		}
 	}
-
-	@Override
-	public int getType() {
-		return StringListener.BLOCK;
-	}
-
 }

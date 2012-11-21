@@ -6,8 +6,15 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+
+/**
+ * The Class FieldDocumentFilter filters out newlines and tabs.
+ */
 public class FieldDocumentFilter extends DocumentFilter {
 
+	/* (non-Javadoc)
+	 * @see javax.swing.text.DocumentFilter#insertString(javax.swing.text.DocumentFilter.FilterBypass, int, java.lang.String, javax.swing.text.AttributeSet)
+	 */
 	public void insertString(DocumentFilter.FilterBypass fb, int offset,
 			String string, AttributeSet attr) throws BadLocationException {
 		if (Main.debug3) {
@@ -26,6 +33,9 @@ public class FieldDocumentFilter extends DocumentFilter {
 		super.insertString(fb, offset, buffer.toString(), attr);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.text.DocumentFilter#replace(javax.swing.text.DocumentFilter.FilterBypass, int, int, java.lang.String, javax.swing.text.AttributeSet)
+	 */
 	public void replace(DocumentFilter.FilterBypass fb, int offset, int length,
 			String string, AttributeSet attr) throws BadLocationException {
 		if (Main.debug3) {
@@ -36,6 +46,9 @@ public class FieldDocumentFilter extends DocumentFilter {
 		insertString(fb, offset, string, attr);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.text.DocumentFilter#remove(javax.swing.text.DocumentFilter.FilterBypass, int, int)
+	 */
 	public void remove(DocumentFilter.FilterBypass fb, int offset, int length)
 			throws BadLocationException {
 		if (Main.debug3) {

@@ -11,12 +11,26 @@ import facade.AbstractFacade;
 import facade.StringListener;
 import gui.Main;
 
+
+/**
+ * The Class DocRange is a class that represents a modifiable range of text, which could be backed by a variety of facade types extending AbstractFacade.
+ */
 public class DocRange extends AbstractDocRange implements StringListener {
 
+	/**
+	 * Instantiates a new doc range.
+	 *
+	 * @param textElement the text element
+	 * @param facade the facade
+	 * @param ch the ch
+	 */
 	public DocRange(Element textElement, AbstractFacade facade, ChangeHandler ch) {
 		super(textElement, facade, ch);
 	}
 
+	/* (non-Javadoc)
+	 * @see block.AbstractDocRange#react(boolean, java.lang.String)
+	 */
 	@Override
 	public void react(boolean hasUnsavedChanges, String s) {
 		if (Main.debug3) {
@@ -46,10 +60,5 @@ public class DocRange extends AbstractDocRange implements StringListener {
 			}
 			resetEverything();
 		}
-	}
-
-	@Override
-	public int getType() {
-		return StringListener.BLOCK;
 	}
 }

@@ -16,12 +16,28 @@ import org.jdom2.Element;
 
 import undecided.Util;
 
+
+/**
+ * The Class CredentialsDialog pops up and asks for username and password.
+ */
+//TODO - link with existing netID validation software
 @SuppressWarnings("serial")
 public class CredentialsDialog extends JDialog implements ActionListener {
+	
+	/** The username field. */
 	private LabeledField usernameField;
+	
+	/** The password field. */
 	private LabeledField passwordField;
+	
+	/** The validate button. */
 	private JButton validateButton;
 
+	/**
+	 * Instantiates a new credentials dialog.
+	 *
+	 * @param parentFrame the parent frame
+	 */
 	public CredentialsDialog(JFrame parentFrame) {
 		super(parentFrame, Dialog.ModalityType.DOCUMENT_MODAL);
 		getContentPane().add(createGUI());
@@ -30,6 +46,11 @@ public class CredentialsDialog extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 
+	/**
+	 * Creates the gui.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createGUI() {
 		// 'panel' holds the tablePanel above the plusButton and okButton
 		JPanel panel = new JPanel();
@@ -53,6 +74,9 @@ public class CredentialsDialog extends JDialog implements ActionListener {
 		return panel;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// validate that the userID is in this document

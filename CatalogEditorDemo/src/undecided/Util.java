@@ -7,13 +7,8 @@ import gui.widget.SaveButton;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.text.AttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.DefaultStyledDocument.ElementSpec;
 
 import org.jdom2.Attribute;
 import org.jdom2.Document;
@@ -26,11 +21,28 @@ import org.jdom2.xpath.XPathFactory;
 
 import block.BlockPanel;
 
+
+/**
+ * The Class Util contains a lot of static utilities shared by different classes.
+ */
+//TODO - move all of these methods into the classes that call them, or...?
 public class Util {
+	
+	/** The factory. */
 	private static XPathFactory factory = XPathFactory.instance();
+	
+	/** The color book. */
 	public static ColorBook colorBook = new ColorBook();
+	
+	/** The name book. */
 	public static NameBook nameBook = new NameBook();
 
+	/**
+	 * Builds the document.
+	 *
+	 * @param catalogXMLFile the catalog xml file
+	 * @return the document
+	 */
 	public static Document buildDocument(File catalogXMLFile) {
 		try {
 			SAXBuilder builder = new SAXBuilder();
@@ -45,6 +57,12 @@ public class Util {
 		return null;
 	}
 
+	/**
+	 * Gets the element.
+	 *
+	 * @param elementPath the element path
+	 * @return the element
+	 */
 	public static Element getElement(String elementPath) {
 		if (Main.debug1) {
 			System.out
@@ -60,6 +78,13 @@ public class Util {
 		return element;
 	}
 
+	/**
+	 * Gets the element.
+	 *
+	 * @param elementPath the element path
+	 * @param fromThisElement the from this element
+	 * @return the element
+	 */
 	public static Element getElement(String elementPath, Element fromThisElement) {
 		if (Main.debug1) {
 			System.out.println("in getElement #2 with elementPath: "
@@ -77,6 +102,12 @@ public class Util {
 		return element;
 	}
 
+	/**
+	 * Gets the elements.
+	 *
+	 * @param elementsPath the elements path
+	 * @return the elements
+	 */
 	public static LinkedList<Element> getElements(String elementsPath) {
 		XPathExpression<Element> xpath = factory.compile(elementsPath,
 				Filters.element());
@@ -89,6 +120,12 @@ public class Util {
 		return elements;
 	}
 
+	/**
+	 * Editing is allowed.
+	 *
+	 * @param editors the editors
+	 * @return true, if successful
+	 */
 	public static boolean editingIsAllowed(List<Element> editors) {
 		Element editor = Main.getEditor();
 		if (editor == null) {
@@ -113,6 +150,12 @@ public class Util {
 		return false;
 	}
 
+	/**
+	 * Gets the current version from course.
+	 *
+	 * @param courseElement the course element
+	 * @return the current version from course
+	 */
 	public static Element getCurrentVersionFromCourse(Element courseElement) {
 		String programDesignator = courseElement.getParentElement()
 				.getAttributeValue("designator");
@@ -121,6 +164,14 @@ public class Util {
 				programDesignator);
 	}
 
+	/**
+	 * Gets the current version from course.
+	 *
+	 * @param courseElement the course element
+	 * @param courseNumber the course number
+	 * @param programDesignator the program designator
+	 * @return the current version from course
+	 */
 	public static Element getCurrentVersionFromCourse(Element courseElement,
 			String courseNumber, String programDesignator) {
 		String currentYear = Main.getDocument().getRootElement()
@@ -131,10 +182,22 @@ public class Util {
 		return getElement(xPathExpression);
 	}
 
+	/**
+	 * Gets the editor elements with net id.
+	 *
+	 * @param netID the net id
+	 * @return the editor elements with net id
+	 */
 	public static List<Element> getEditorElementsWithNetID(String netID) {
 		return Util.getElements("//EDITOR[@netID=\"" + netID + "\"]");
 	}
 
+	/**
+	 * Gets the name from id.
+	 *
+	 * @param ID the ID
+	 * @return the name from id
+	 */
 	public static String getNameFromID(int ID) {
 		switch (ID) {
 		case AbstractFacade.CREDIT:
@@ -176,6 +239,12 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Gets the tree label.
+	 *
+	 * @param e the e
+	 * @return the tree label
+	 */
 	public static String getTreeLabel(Element e) {
 		String tagName = e.getName();
 		if (tagName.equals("CATALOG")) {
@@ -205,22 +274,52 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Catalog label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String catalogLabel(Element e) {
 		return e.getAttributeValue("currentYear") + " Catalog";
 	}
 
+	/**
+	 * Editors label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String editorsLabel(Element e) {
 		return "editors for " + getTreeLabel(e.getParentElement());
 	}
 
+	/**
+	 * Editor label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String editorLabel(Element e) {
 		return "editor with netID: " + e.getAttributeValue("netID");
 	}
 
+	/**
+	 * Reserve numbers label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String reserveNumbersLabel(Element e) {
 		return "reserved course numbers";
 	}
 
+	/**
+	 * Header label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String headerLabel(Element e) {
 		Element parent = e.getParentElement();
 		String parentName = parent.getName();
@@ -235,26 +334,62 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Colleges label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String collegesLabel(Element e) {
 		return "colleges";
 	}
 
+	/**
+	 * College label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String collegeLabel(Element e) {
 		return e.getAttributeValue("name") + " college";
 	}
 
+	/**
+	 * Programs label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String programsLabel(Element e) {
 		return "programs";
 	}
 
+	/**
+	 * Program label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String programLabel(Element e) {
 		return e.getAttributeValue("designator");
 	}
 
+	/**
+	 * Queries label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String queriesLabel(Element e) {
 		return "queries";
 	}
 
+	/**
+	 * Course label.
+	 *
+	 * @param e the e
+	 * @return the string
+	 */
 	private static String courseLabel(Element e) {
 		Element currentVersion = getCurrentVersionFromCourse(e);
 		Element parent = e.getParentElement();
@@ -264,39 +399,89 @@ public class Util {
 				+ e.getAttributeValue("number") + experimentalString;
 	}
 
+	/**
+	 * Error label.
+	 *
+	 * @return the string
+	 */
 	private static String errorLabel() {
 		return "?";
 	}
 
+	/**
+	 * Gets the ID from name.
+	 *
+	 * @param name the name
+	 * @return the ID from name
+	 */
 	public static int getIDFromName(String name) {
 		return nameBook.get(name) == null ? -1 : nameBook.get(name);
 	}
 
+	/**
+	 * The Class Pair.
+	 *
+	 * @param <A> the generic type
+	 * @param <B> the generic type
+	 */
 	public class Pair<A, B> {
+		
+		/** The first. */
 		private A first;
+		
+		/** The second. */
 		private B second;
 
+		/**
+		 * Instantiates a new pair.
+		 *
+		 * @param first the first
+		 * @param second the second
+		 */
 		public Pair(A first, B second) {
 			this.first = first;
 			this.second = second;
 		}
 
+		/**
+		 * Sets the first.
+		 *
+		 * @param first the new first
+		 */
 		public void setFirst(A first) {
 			this.first = first;
 		}
 
+		/**
+		 * Sets the second.
+		 *
+		 * @param second the new second
+		 */
 		public void setSecond(B second) {
 			this.second = second;
 		}
 
+		/**
+		 * Gets the first.
+		 *
+		 * @return the first
+		 */
 		public A getFirst() {
 			return first;
 		}
 
+		/**
+		 * Gets the second.
+		 *
+		 * @return the second
+		 */
 		public B getSecond() {
 			return second;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
 		@Override
 		public boolean equals(Object other) {
 			if (other == null || !other.getClass().equals(getClass())) {
@@ -314,6 +499,11 @@ public class Util {
 		}
 	}
 	
+	/**
+	 * Gets the default version.
+	 *
+	 * @return the default version
+	 */
 	public static Element getDefaultVersion(){
 		String changeMe = "default value - please change me and all values!";
 		Element newVersion = new Element("VERSION");
@@ -356,6 +546,12 @@ public class Util {
 		return newVersion;
 	}
 	
+	/**
+	 * Gets the string from element.
+	 *
+	 * @param e the e
+	 * @return the string from element
+	 */
 	public static String getStringFromElement(Element e) {
 		String tagName = e.getName();
 		if (tagName.equals("HEADER")) {
@@ -395,11 +591,24 @@ public class Util {
 	 * the current schema, this should be enough to uniquely identify a tree path,
 	 * but would be ambiguous in a schema without unique attributes like number, etc.
 	 */
+	/**
+	 * Gets the x path.
+	 *
+	 * @param selected the selected
+	 * @return the x path
+	 */
 	public static String getXPath(Element selected) {
 		String thisElement = selected.getName() + getAttributeString(selected);
 		return getXPath(selected.getParentElement(),thisElement);
 	}
 
+	/**
+	 * Gets the x path.
+	 *
+	 * @param selected the selected
+	 * @param upperPath the upper path
+	 * @return the x path
+	 */
 	private static String getXPath(Element selected,String upperPath){
 		if(selected==null){
 			return upperPath;
@@ -410,6 +619,12 @@ public class Util {
 		
 	}
 
+	/**
+	 * Gets the attribute string.
+	 *
+	 * @param selected the selected
+	 * @return the attribute string
+	 */
 	private static String getAttributeString(Element selected) {
 		String toReturn = "";
 		List<Attribute> allAttributes = selected.getAttributes();

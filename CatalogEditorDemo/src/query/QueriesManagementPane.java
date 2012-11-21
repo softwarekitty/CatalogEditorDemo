@@ -19,15 +19,36 @@ import javax.swing.JTextField;
 import org.jdom2.Element;
 
 
+
+/**
+ * The Class QueriesManagementPane helps admin users manage global queries, create queries or delete any query.
+ */
 @SuppressWarnings("serial")
 public class QueriesManagementPane extends JPanel implements ActionListener,Handleable,Displayable {
+	
+	/** The queries element. */
 	private Element queriesElement;
+	
+	/** The container. */
 	private JPanel container;
+	
+	/** The description field. */
 	private JTextField descriptionField;
+	
+	/** The query field. */
 	private JTextField queryField;
+	
+	/** The add button. */
 	private JButton addButton;
+	
+	/** The display. */
 	private DisplayDialog display;
 
+	/**
+	 * Instantiates a new queries management pane.
+	 *
+	 * @param queriesElement the queries element
+	 */
 	public QueriesManagementPane(Element queriesElement) {
 		this.queriesElement = queriesElement;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -49,6 +70,11 @@ public class QueriesManagementPane extends JPanel implements ActionListener,Hand
 		setMaximumSize(new Dimension(CourseEditorPane.WIDTH, 200));
 	}
 
+	/**
+	 * Gets the new query pane.
+	 *
+	 * @return the new query pane
+	 */
 	private JPanel getNewQueryPane() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -66,6 +92,9 @@ public class QueriesManagementPane extends JPanel implements ActionListener,Hand
 		return panel;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == addButton) {
@@ -92,22 +121,37 @@ public class QueriesManagementPane extends JPanel implements ActionListener,Hand
 
 	}
 
+	/* (non-Javadoc)
+	 * @see query.Handleable#removeHandle(gui.widget.AbstractHandle)
+	 */
 	public void removeHandle(AbstractHandle toRemove) {
 		container.remove(toRemove);
 	}
 	
+	/* (non-Javadoc)
+	 * @see query.Displayable#getDisplay()
+	 */
 	public DisplayDialog getDisplay(){
 		return display;
 	}
 	
+	/* (non-Javadoc)
+	 * @see query.Displayable#displayInDialog()
+	 */
 	public boolean displayInDialog(){
 		return true;
 	}
 	
+	/* (non-Javadoc)
+	 * @see query.Displayable#display(java.lang.String)
+	 */
 	public void display(String xmlExpression){
 		//do nothing
 	}
 
+	/* (non-Javadoc)
+	 * @see query.Displayable#setDisplay(query.DisplayDialog)
+	 */
 	@Override
 	public void setDisplay(DisplayDialog display) {
 		this.display=display;

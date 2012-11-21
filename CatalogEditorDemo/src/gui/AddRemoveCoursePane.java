@@ -16,17 +16,33 @@ import javax.swing.JTextArea;
 
 import org.jdom2.Element;
 
-import query.ContainerPanel;
 import query.Handleable;
 import undecided.Util;
 
+
+/**
+ * The Class AddRemoveCoursePane facilitates adding or removing courses from a Program.
+ */
 @SuppressWarnings("serial")
 public class AddRemoveCoursePane extends JPanel implements Handleable, ActionListener {
+	
+	/** The program element. */
 	private Element programElement;
+	
+	/** The input area. */
 	private JTextArea inputArea;
+	
+	/** The add button. */
 	private JButton addButton;
+	
+	/** The container. */
 	private JPanel container;
 
+	/**
+	 * Instantiates a new AddRemoveCoursePane.
+	 *
+	 * @param programElement the program element
+	 */
 	public AddRemoveCoursePane(Element programElement) {
 		this.programElement = programElement;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -39,6 +55,11 @@ public class AddRemoveCoursePane extends JPanel implements Handleable, ActionLis
 		add(scroller);
 	}
 	
+	/**
+	 * Gets the course handles.
+	 *
+	 * @return the course handles
+	 */
 	private JPanel getCourseHandles(){
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
@@ -49,6 +70,11 @@ public class AddRemoveCoursePane extends JPanel implements Handleable, ActionLis
 		return panel;
 	}
 
+	/**
+	 * Gets the add course pane.
+	 *
+	 * @return the adds course pane
+	 */
 	private JPanel getAddCoursePane() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -65,12 +91,18 @@ public class AddRemoveCoursePane extends JPanel implements Handleable, ActionLis
 		return panel;
 	}
 
+	/* (non-Javadoc)
+	 * @see query.Handleable#removeHandle(gui.widget.AbstractHandle)
+	 */
 	@Override
 	public void removeHandle(AbstractHandle toRemove) {
 		container.remove(toRemove);
 		Main.repack();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == addButton){

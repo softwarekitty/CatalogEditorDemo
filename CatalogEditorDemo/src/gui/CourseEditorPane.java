@@ -19,11 +19,26 @@ import block.BlockPanel;
 
 import comments.CommentsPanel;
 
+/**
+ * The Class CourseEditorPane combines the FieldPanel, BlockPanel and
+ * CommentsPanel to represent the current version of a course. 
+ */
+//TODO - allow editing of any version of a course.
 @SuppressWarnings("serial")
 public class CourseEditorPane extends JPanel implements ActionListener {
+
+	/** The save button. */
 	private SaveButton saveButton;
+
+	/** The Constant WIDTH. */
 	public static final int WIDTH = 736;
 
+	/**
+	 * Instantiates a new course editor pane.
+	 * 
+	 * @param course
+	 *            the course
+	 */
 	public CourseEditorPane(Element course) {
 		// put a versionPanel above a save button
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -32,19 +47,26 @@ public class CourseEditorPane extends JPanel implements ActionListener {
 		saveButton.addActionListener(this);
 		saveButton.setEnabled(false);
 		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		add(getVersionPanel(course));
 	}
 
 	// gets the versionPanel, which consists of the fieldPanel and the editPanel
+	/**
+	 * Gets the version panel.
+	 * 
+	 * @param courseElement
+	 *            the course element
+	 * @return the version panel
+	 */
 	private JPanel getVersionPanel(Element courseElement) {
 
 		String programDesignator = courseElement.getParentElement()
 				.getAttributeValue("designator");
 		String courseNumber = courseElement.getAttributeValue("number");
 
-
-		Element versionElement = Util.getCurrentVersionFromCourse(courseElement, courseNumber, programDesignator);
+		Element versionElement = Util.getCurrentVersionFromCourse(
+				courseElement, courseNumber, programDesignator);
 		// the facade mediates multiple views with one save button and one
 		// version Element
 		List<Element> editors = ((Element) courseElement.getParent()).getChild(
@@ -56,11 +78,17 @@ public class CourseEditorPane extends JPanel implements ActionListener {
 		versionPanel.add(new FieldPanel(facade, editors));
 		versionPanel.add(new BlockPanel(facade, editors));
 		versionPanel.add(saveButton);
-		versionPanel.add(new CommentsPanel(
-				versionElement.getChild("COMMENTS"), saveButton));
+		versionPanel.add(new CommentsPanel(versionElement.getChild("COMMENTS"),
+				saveButton));
 		return versionPanel;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		saveButton.save();

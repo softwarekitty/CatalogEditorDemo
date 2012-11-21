@@ -19,18 +19,46 @@ import javax.swing.UIManager;
 
 import org.jdom2.Element;
 
+
+/**
+ * The Class QueryHandle is used in managing queries to delete queries, or to set them as global - if allowed.
+ */
 @SuppressWarnings("serial")
 public class QueryHandle extends AbstractHandle implements ActionListener {
+	
+	/** The container. */
 	private JPanel container;
+	
+	/** The global button. */
 	private JButton globalButton;
+	
+	/** The play button. */
 	private JButton playButton;
+	
+	/** The is global. */
 	private boolean isGlobal;
+	
+	/** The control global. */
 	private boolean controlGlobal;
 
+	/**
+	 * Instantiates a new query handle.
+	 *
+	 * @param element the element
+	 * @param parent the parent
+	 */
 	public QueryHandle(Element element, Handleable parent) {
 		this(element, parent, true, true);
 	}
 
+	/**
+	 * Instantiates a new query handle.
+	 *
+	 * @param element the element
+	 * @param parent the parent
+	 * @param controlGlobal the control global
+	 * @param controlDelete the control delete
+	 */
 	public QueryHandle(Element element, Handleable parent,
 			boolean controlGlobal, boolean controlDelete) {
 		super(element,parent);
@@ -75,11 +103,19 @@ public class QueryHandle extends AbstractHandle implements ActionListener {
 		setMaximumSize(new Dimension(Integer.MAX_VALUE,25));
 	}
 
+	/**
+	 * Gets the border color.
+	 *
+	 * @return the border color
+	 */
 	private Color getBorderColor() {
 		return isGlobal && controlGlobal ? Color.GREEN : UIManager
 				.getColor("Panel.background");
 	}
 
+	/* (non-Javadoc)
+	 * @see gui.widget.AbstractHandle#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		super.actionPerformed(event);
