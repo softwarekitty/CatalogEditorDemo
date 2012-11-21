@@ -23,6 +23,7 @@ import org.jdom2.Element;
 /**
  * The Class QueriesManagementPane helps admin users manage global queries, create queries or delete any query.
  */
+//TODO - clear out the query text fields after saving one
 @SuppressWarnings("serial")
 public class QueriesManagementPane extends JPanel implements ActionListener,Handleable,Displayable {
 	
@@ -65,7 +66,6 @@ public class QueriesManagementPane extends JPanel implements ActionListener,Hand
 			}
 			container.add(new QueryHandle(query, this));
 		}
-		//container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		add(container);
 		setMaximumSize(new Dimension(CourseEditorPane.WIDTH, 200));
 	}

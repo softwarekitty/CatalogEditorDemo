@@ -41,6 +41,7 @@ public class CustomViewPane extends JSplitPane {
 		rightScroll
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		setRightComponent(rightScroll);
+		Main.repack();
 	}
 
 }

@@ -42,7 +42,7 @@ import undecided.Util;
 
 
 /**
- * The Class Main.
+ * The Class that runs the main method.
  */
 @SuppressWarnings("serial")
 public class Main extends JApplet {
@@ -80,7 +80,7 @@ public class Main extends JApplet {
 	public static boolean debug1 = false; // xpath and threading debugging
 	
 	/** The debug2. */
-	public static boolean debug2 = true; // i/o debugging
+	public static boolean debug2 = false; // i/o debugging
 	
 	/** The debug3. */
 	public static boolean debug3 = false; // verbose
@@ -262,7 +262,7 @@ public class Main extends JApplet {
 		}
 
 		CustomTree tree = null;
-		if (viewToOpen.equals("permissions")) {
+		if (viewToOpen.equals("admin")) {
 
 			// create model, tree and listener
 			CustomTreeModel model = new CustomTreeModel(modelInfo[0][0],
@@ -275,7 +275,7 @@ public class Main extends JApplet {
 			// set the tree to the stored treePath if possible, root otherwise
 			Element start = null;
 			String selectedPath = editor
-					.getAttributeValue("permissionsTreePath");
+					.getAttributeValue("adminTreePath");
 			if (selectedPath == null || selectedPath.equals("")) {
 				start = document.getRootElement();
 			} else {

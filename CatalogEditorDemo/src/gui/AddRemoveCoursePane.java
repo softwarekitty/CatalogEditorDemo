@@ -11,7 +11,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.jdom2.Element;
@@ -23,6 +22,7 @@ import undecided.Util;
 /**
  * The Class AddRemoveCoursePane facilitates adding or removing courses from a Program.
  */
+//TODO - make adding a course insert it in numerical order!
 @SuppressWarnings("serial")
 public class AddRemoveCoursePane extends JPanel implements Handleable, ActionListener {
 	
@@ -48,26 +48,14 @@ public class AddRemoveCoursePane extends JPanel implements Handleable, ActionLis
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		add(getAddCoursePane());
-		container = getCourseHandles();
-
-		JScrollPane scroller = new JScrollPane(container);
-		scroller.setPreferredSize(new Dimension(CourseEditorPane.WIDTH, 800));
-		add(scroller);
-	}
-	
-	/**
-	 * Gets the course handles.
-	 *
-	 * @return the course handles
-	 */
-	private JPanel getCourseHandles(){
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+		container = new JPanel();
+		container.setLayout(new BoxLayout(container,BoxLayout.Y_AXIS));
 		for (Element e : programElement.getChildren("COURSE")) {
 			CourseHandle handle = new CourseHandle(e, this);
-			panel.add(handle);
+			container.add(handle);
 		}
-		return panel;
+		add(container);
+		setMaximumSize(new Dimension(CourseEditorPane.WIDTH, 200));
 	}
 
 	/**
@@ -97,7 +85,6 @@ public class AddRemoveCoursePane extends JPanel implements Handleable, ActionLis
 	@Override
 	public void removeHandle(AbstractHandle toRemove) {
 		container.remove(toRemove);
-		Main.repack();
 	}
 
 	/* (non-Javadoc)
@@ -111,6 +98,7 @@ public class AddRemoveCoursePane extends JPanel implements Handleable, ActionLis
 			newCourse.setAttribute("deactivated","false");
 			programElement.addContent(newCourse);
 			container.add(new CourseHandle(newCourse,this));
+			inputArea.setText("");
 			Main.repack();
 			Main.save();
 		}

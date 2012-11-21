@@ -71,8 +71,8 @@ public abstract class AbstractHandle extends JPanel implements ActionListener {
 			String elementName = element.getName();
 			elementName = elementName.charAt(0)
 					+ elementName.substring(1).toLowerCase();
-			int reply = JOptionPane.showConfirmDialog(null, "Confirm Delete",
-					"Really Delete " + elementName + "?",
+			int reply = JOptionPane.showConfirmDialog(null, 
+					"Really Delete " + elementName + "?","Confirm Delete",
 					JOptionPane.YES_NO_OPTION);
 			if (reply == JOptionPane.YES_OPTION) {
 				element.getParentElement().removeContent(element);

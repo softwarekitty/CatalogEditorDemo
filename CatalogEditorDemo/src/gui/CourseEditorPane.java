@@ -47,7 +47,6 @@ public class CourseEditorPane extends JPanel implements ActionListener {
 		saveButton.addActionListener(this);
 		saveButton.setEnabled(false);
 		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 		add(getVersionPanel(course));
 	}
 
@@ -75,11 +74,22 @@ public class CourseEditorPane extends JPanel implements ActionListener {
 				programDesignator + " " + courseNumber, saveButton);
 		JPanel versionPanel = new JPanel();
 		versionPanel.setLayout(new BoxLayout(versionPanel, BoxLayout.Y_AXIS));
+//		FieldPanel fp = new FieldPanel(facade, editors);
+//		fp.setAlignmentX(LEFT_ALIGNMENT);
+//		versionPanel.add(fp);
+//		BlockPanel bp = new BlockPanel(facade, editors);
+//		bp.setAlignmentX(LEFT_ALIGNMENT);
+//		versionPanel.add(bp);
+//		versionPanel.add(saveButton);
+//		CommentsPanel cp = new CommentsPanel(versionElement.getChild("COMMENTS"),
+//				saveButton);
+//		cp.setAlignmentX(LEFT_ALIGNMENT);
+//		versionPanel.add(cp);
 		versionPanel.add(new FieldPanel(facade, editors));
 		versionPanel.add(new BlockPanel(facade, editors));
 		versionPanel.add(saveButton);
 		versionPanel.add(new CommentsPanel(versionElement.getChild("COMMENTS"),
-				saveButton));
+		saveButton));
 		return versionPanel;
 	}
 

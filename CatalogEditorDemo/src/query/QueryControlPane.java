@@ -38,6 +38,7 @@ import undecided.Util;
  * investigate global and other saved queries, and view the results of any
  * query.
  */
+//TODO - clear out the query text fields after saving one
 @SuppressWarnings("serial")
 public class QueryControlPane extends JPanel implements ActionListener,
 		Handleable, ItemListener, ChangeListener, Displayable {

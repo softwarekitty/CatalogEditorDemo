@@ -67,10 +67,10 @@ public class PermissionsSelectionListener extends AbstractSelectionListener {
 					.println("null editor in EditingSelectionListener.valueChanged");
 		} else {
 			String previousTreePath = Main.getEditor().getAttributeValue(
-					"permissionsTreePath");
+					"adminTreePath");
 			String currentTreePath = Util.getXPath(selectedElement);
 			if (!currentTreePath.equals(previousTreePath)) {
-				Main.setEditorSetting("permissionsTreePath", currentTreePath);
+				Main.setEditorSetting("adminTreePath", currentTreePath);
 			}
 		}
 
