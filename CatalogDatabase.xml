@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CATALOG currentYear="2012">
+  <QUERIES>
+    <QUERY description="all Programs" author="carl1978" global="true">//PROGRAM</QUERY>
+    <QUERY description="all of gadia's comments" author="carl1978" global="true">//COMMENT[@netID="gadia"]</QUERY>
+    <QUERY description="com s program" author="carl1978" global="false">//PROGRAM[@designator="Com S"]</QUERY>
+  </QUERIES>
+  <EDITORS>
+    <EDITOR netID="carl1978" lastView="admin" displayInDialog="false" editingTreePath="CATALOG[@currentYear=&quot;2012&quot;]/PROGRAMS/PROGRAM[@designator=&quot;Com S&quot;][@isDepartment=&quot;true&quot;]/COURSE[@number=&quot;409&quot;][@deactivated=&quot;false&quot;]" permissionsTreePath="CATALOG[@currentYear=&quot;2012&quot;]/QUERIES" tab="new" adminTreePath="CATALOG[@currentYear=&quot;2012&quot;]/QUERIES" />
+  </EDITORS>
+  <RESERVEDNUMBERS>100,200,300,490,117,555</RESERVEDNUMBERS>
+  <HEADER>the catalog header text block</HEADER>
+  <COLLEGES>
+    <COLLEGE name="Engineering">
+      <HEADER>this is the engineering college text block</HEADER>
+      <EDITORS>
+        <EDITOR netID="carl1978" lastView="admin" displayInDialog="false" editingTreePath="CATALOG[@currentYear=&quot;2012&quot;]/PROGRAMS/PROGRAM[@designator=&quot;Com S&quot;][@isDepartment=&quot;true&quot;]/COURSE[@number=&quot;409&quot;][@deactivated=&quot;false&quot;]" permissionsTreePath="CATALOG[@currentYear=&quot;2012&quot;]/QUERIES" tab="new" adminTreePath="CATALOG[@currentYear=&quot;2012&quot;]/QUERIES" />
+      </EDITORS>
+    </COLLEGE>
+    <COLLEGE name="LAS">
+      <HEADER>this is the college of liberal arts and sciences text block</HEADER>
+      <EDITORS>
+        <EDITOR netID="carl1978" lastView="admin" displayInDialog="false" editingTreePath="CATALOG[@currentYear=&quot;2012&quot;]/PROGRAMS/PROGRAM[@designator=&quot;Com S&quot;][@isDepartment=&quot;true&quot;]/COURSE[@number=&quot;409&quot;][@deactivated=&quot;false&quot;]" permissionsTreePath="CATALOG[@currentYear=&quot;2012&quot;]/QUERIES" tab="new" adminTreePath="CATALOG[@currentYear=&quot;2012&quot;]/QUERIES" />
+        <EDITOR netID="gadia" lastView="editing" editingTreePath="CATALOG[@currentYear=&quot;2012&quot;]/PROGRAMS/PROGRAM[@designator=&quot;Com S&quot;][@isDepartment=&quot;true&quot;]/HEADER" displayInDialog="false" tab="global" />
+      </EDITORS>
+    </COLLEGE>
+  </COLLEGES>
+  <PROGRAMS>
+    <PROGRAM designator="Com S" isDepartment="true">
+      <EDITORS>
+        <EDITOR netID="carl1978" lastView="admin" displayInDialog="false" editingTreePath="CATALOG[@currentYear=&quot;2012&quot;]/PROGRAMS/PROGRAM[@designator=&quot;Com S&quot;][@isDepartment=&quot;true&quot;]/COURSE[@number=&quot;409&quot;][@deactivated=&quot;false&quot;]" permissionsTreePath="CATALOG[@currentYear=&quot;2012&quot;]/QUERIES" tab="new" adminTreePath="CATALOG[@currentYear=&quot;2012&quot;]/QUERIES" />
+      </EDITORS>
+      <HEADER>Carl Chang, Chair of Department
+Professors: Aluru, Bergman, C. Chang, Fernandez-Baca, Honavar, Huang, Kothari, J. Lutz, R. Lutz, Maddux, Miller, Slutzki, Wong
+Professors (Emeritus): Brearley, Oldehoeft, Stewart, Thomas
+Associate Professors: Aduri, J. Chang , Chaudhuri, Chou, Eulenstein, Gadia, Jia, Miner, Prabhu, Tavanapong, Tyagi, Zhu
+Associate Professor (Collaborators): Mayordome
+Assistant Professors: Basu, Cai, Harding, Margaritis, Rajan, Ruan, Song, Stoytchev, Tian, T. Zhang, W. Zhang
+Senior Lecturers: Lathroup, Mitra
+Lecturers: S. Chang, Johnson, Kautz
+Undergraduate Study
+
+The curriculum leading to the baccalaureate degree in computer science is designed to prepare students for positions as computer scientists with business, industry, or government, or for graduate study in computer science. The main objectives are to impart to students an understanding of the basics of computer science, to develop proficiency in the practice of computing, and to prepare them for continued professional development.
+
+The following are intended learning outcomes for computer science majors. Seniors will assess these outcomes in a survey conducted before they graduate and feedback thus obtained will be used to improve the curriculum.
+
+A. Impart an understanding of the basics of the discipline. Each graduate will know
+
+A.1 Fundamental principles of computing,
+A.2 Basic foundations of Mathematics, Statistics, and physical sciences
+A.3 Design and implementation of programs
+
+B. Develop proficiency in the practice of computing. The graduated student will be able to
+
+B.1 formulate and solve problems in computing,
+B.2 Understand design and performance requirements of software systems,
+B.3 Apply sound principles to the synthesis and analysis of computer systems
+
+C. Prepare for continued professional development. Our students will
+C1 Engage in lifelong learning and expect to embrace change,
+C.2 Communicate effectively and think critically and creatively, both independently and with others,
+C.3 Be aware of social and ethical issues of computers in Society
+
+Students must earn at least a C- in each course taken to fulfill the Degree Program.
+
+Students must take at least 45 credits at the 300 level or higher at Iowa State University.
+
+To complete an undergraduate degree in Computer Science, a student must satisfy the requirements of the College of Liberal Arts and Sciences (see Liberal Arts and Sciences, Curriculum) and include the following courses within the group requirements: Phil 343; Sp Cm 212; 14 credits of Math and Statistics including Math 165, Math 166, one Statistics course from Stat 105, 231, 305, 330, 333, or 341, and at least one Math course from Math 265, 266, 304, 307, 314, or 317; a minimum of 13 credits of natural science including Phys 221, 222, and at least one additional natural science course from the following list: A Ecl 312,
+
+Anthr 202, 307, BBMB 221, Biol 312, Biol 355, Chem 163-231, Ent 370, Env S 324, Env S 330, FS HN 167, Gen 260, Geol 100-108, 201, 311, 451, 475, Mat E 207, 211, Mteor 206, 301, Psych 310. Communication Proficiency requirement: Engl 150, 250 and one of Engl 302, 305, 309 or 314. The minimum grade accepted in each of the three required English courses is a C-.
+
+Students wishing to pursue the B.S. degree in computer science must first successfully complete the premajor program consisting of the following courses and minimum grade grade requirements:
+
+Course Minimum Grade
+227 C-
+228 C-
+Math 165 C-
+
+Students majoring in computer science must successfully complete this premajor program prior to taking any other courses in the Department. Thus, for computer science majors, this premajor serves as a necessary prerequisite to all the other courses offered by the Department.
+
+Computer science majors transferring from other institutions must take at least 15 of their credits at the 300-level or above in our department while in residence at Iowa State.
+
+To graduate with a major in the Computer Science Department, a student must earn at least a C- in each of the courses taken to fulfill the program of study.
+
+A minimum of 44 credits is required for the B.S. degree in computer science. The required courses are: Com S 101, 203, Cpr E 281, Com S 227, 228, 229, 309, 311, 321, 330, 331, 342, 352, 362 or 363. In addition, two advanced-level courses must be selected from the following groups:
+
+Group W: 426, 440, 454, 477, 486
+
+Group B: 401, 409, 416, 417, 425, 430, 455, 461, 472, 474
+
+Group N: 412, 418, Math 421, 471, 481, 426; Cpr E 485, Cpr E 489, M E 557
+
+Courses in Group W require written reports and those in Group B require both oral and written reports. Students must take one course from Group B and one course from any group.
+
+Students must earn a C- or better in each course in the department which is a prerequisite to a course listed in the student's degree program.
+
+Undergraduate Minor. The Computer Science Department offers an undergraduate minor in Computer Science. The minor requires at least 19 credits in computer science courses. Com S 227, 228, and 229, adding up to 10 credits are required. In addition, at least 9 credits should be taken in courses at the 300 level or above.
+
+Undergraduate Curriculum in Software Engineering. The Department of Computer Science together with the Department of Electrical and Computer Engineering also offer a curriculum leading to an undergraduate degree in software engineering. The software engineering curriculum offers emphasis areas in software engineering principles, process, and practice. Students may also take elective courses in computer engineering and computer science.
+
+See Index, Software Engineering. For curriculum information, see also College of Engineering and College of Liberal Arts and Sciences.
+Graduate Study
+
+The department offers work for the degrees Master of Science and Doctor of Philosophy with a major in Computer Science. The Doctor of Philosophy degree may also be earned with computer science as a co-major with some other discipline. Additionally, the department offers a minor to students majoring in other departments.
+
+Established research areas include algorithms, artificial intelligence, computational complexity, computer architecture, bioinformatics, computational biology, computer networks, database systems, formal methods, information assurance, machine learning and neural networks, multimedia, operating systems, parallel and distributed computing, programming languages, robotics, and software engineering. There are also numerous opportunities for interdisciplinary research.
+
+Typically, students beginning graduate work in Computer Science have completed a bachelor's degree or equivalent in Computer Science. However, some students with undergraduate majors in other areas, such as Mathematical, physical, or biological science or engineering become successful graduate students in Computer Science.
+
+For the degree Master of Science, a minimum of 30 semester credits is required. A thesis demonstrating research and the ability to organize and express significant ideas in computer science is required.
+
+The purpose of the doctoral program is to train students to do original research in Computer Science. Each student is also required to attain knowledge and proficiency commensurate with a leadership role in the field. The Ph.D. requirements are governed by the student's program of study committee within established guidelines of the department and the graduate college. They include coursework, demonstrated proficiency in four areas of Computer Science, a research skills requirement, a preliminary examination, and a doctoral dissertation and final oral examination. The department recommends that all graduate students majoring in Computer Science teach as part of their training for an advanced degree.
+
+Courses primarily for undergraduate students</HEADER>
+      <COURSE number="201" deactivated="false">
+        <VERSION catalogYear="2012" experimental="false" sfOnly="false">
+          <TITLE>Computer Programming in COBOL</TITLE>
+          <DUAL />
+          <CROSS />
+          <CONTACTHOURS>
+            <PRIMARY>2</PRIMARY>
+            <SECONDARY>0</SECONDARY>
+          </CONTACTHOURS>
+          <CREDIT repeatable="true" maxCreditCount="">3</CREDIT>
+          <OFFERED>
+            <TERM yearsOffered="all">S</TERM>
+          </OFFERED>
+          <PREREQ>107 or 207 or 227</PREREQ>
+          <DESCRIPTION>Computer programming in COBOL. Emphasis on the design, writing, debugging, and testing of business applications programs in a transaction-oriented environment.  Cobol is used for business a lot.</DESCRIPTION>
+          <NOTES nonMajorGraduateCredit="false" />
+          <COMMENTS>
+            <COMMENT netID="carl1978">This comment is an example.  I'm making lots of comments.</COMMENT>
+          </COMMENTS>
+        </VERSION>
+        <VERSION catalogYear="1212" experimental="false" sfOnly="false">
+          <TITLE>default value - please change me and all values!</TITLE>
+          <DUAL />
+          <CROSS />
+          <CONTACTHOURS>
+            <PRIMARY>3</PRIMARY>
+            <SECONDARY>0</SECONDARY>
+          </CONTACTHOURS>
+          <CREDIT repeatable="false" maxCreditCount="">3</CREDIT>
+          <OFFERED />
+          <PREREQ />
+          <DESCRIPTION />
+          <NOTES nonMajorGraduateCredit="false" />
+          <COMMENTS />
+        </VERSION>
+        <VERSION catalogYear="2013" experimental="false" sfOnly="false">
+          <TITLE>default value - please change me and all values!</TITLE>
+          <DUAL />
+          <CROSS />
+          <CONTACTHOURS>
+            <PRIMARY>3</PRIMARY>
+            <SECONDARY>0</SECONDARY>
+          </CONTACTHOURS>
+          <CREDIT repeatable="false" maxCreditCount="">3</CREDIT>
+          <OFFERED />
+          <PREREQ />
+          <DESCRIPTION />
+          <NOTES nonMajorGraduateCredit="false" />
+          <COMMENTS />
+        </VERSION>
+      </COURSE>
+      <COURSE number="409" deactivated="false">
+        <VERSION versionID="3" authorID="carl1978" creationDate="12/12/2010" lastEdited="01/01/2011" catalogYear="2012" accepted="true" experimental="false" sfOnly="true">
+          <TITLE>Software Requirements Engineering For Noobs</TITLE>
+          <DUAL>509</DUAL>
+          <CROSS>S E, Cpr E</CROSS>
+          <CONTACTHOURS>
+            <PRIMARY>3</PRIMARY>
+            <SECONDARY>1</SECONDARY>
+          </CONTACTHOURS>
+          <CREDIT repeatable="true" maxCreditCount="7">3</CREDIT>
+          <OFFERED>
+            <TERM yearsOffered="all">F</TERM>
+            <TERM yearsOffered="all">S</TERM>
+            <TERM yearsOffered="all">SS</TERM>
+          </OFFERED>
+          <PREREQ>Com S 309, Engl 250, Sp Cm 212</PREREQ>
+          <DESCRIPTION>The requirements engineering process, including identification of stakeholders, requirements elicitation techniques such as interviews and prototyping, analysis fundamentals, requirements specification, and validation. Use of Models: State-oriented, Function-oriented, and Object-oriented. Documentation for Software Requirements. Informal, semi-formal, and formal representations. Structural, informational, and behavioral requirements. Non-functional requirements. Use of requirements repositories to manage and track requirements through the life cycle. Case studies, software projects, written reports, and oral presentations will be require.</DESCRIPTION>
+          <NOTES nonMajorGraduateCredit="true">You will Like this course, trust me.</NOTES>
+          <COMMENTS>
+            <COMMENT netID="gadia">Description could be shortened.</COMMENT>
+            <COMMENT netID="carl1978">What about adding a lab element to the course?</COMMENT>
+          </COMMENTS>
+        </VERSION>
+        <VERSION catalogYear="1212" experimental="false" sfOnly="false">
+          <TITLE>default value - please change me and all values!</TITLE>
+          <DUAL />
+          <CROSS />
+          <CONTACTHOURS>
+            <PRIMARY>3</PRIMARY>
+            <SECONDARY>0</SECONDARY>
+          </CONTACTHOURS>
+          <CREDIT repeatable="false" maxCreditCount="">3</CREDIT>
+          <OFFERED />
+          <PREREQ />
+          <DESCRIPTION />
+          <NOTES nonMajorGraduateCredit="false" />
+          <COMMENTS />
+        </VERSION>
+        <VERSION catalogYear="2013" experimental="false" sfOnly="false">
+          <TITLE>default value - please change me and all values!</TITLE>
+          <DUAL />
+          <CROSS />
+          <CONTACTHOURS>
+            <PRIMARY>3</PRIMARY>
+            <SECONDARY>0</SECONDARY>
+          </CONTACTHOURS>
+          <CREDIT repeatable="false" maxCreditCount="">3</CREDIT>
+          <OFFERED />
+          <PREREQ />
+          <DESCRIPTION />
+          <NOTES nonMajorGraduateCredit="false" />
+          <COMMENTS />
+        </VERSION>
+      </COURSE>
+    </PROGRAM>
+  </PROGRAMS>
+</CATALOG>
