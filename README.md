@@ -17,5 +17,5 @@ Unlike a relational database, modifications to the way the data is organized in 
 
 Permissions management is built in so that a user can only modify areas of the document that they have been designated an editor of.   The data is highly available, so that coordinating with someone else is as simple as looking at his or her latest version.  Communication is as simple as writing a comment on that version.  The GUI has various additional human-interaction-oriented sweeteners that are intended to make it convenient to use.
  
-See the wiki for a #[visual tour](www.google.com)# of the product.
+See the wiki for a [#visual tour#](www.google.com) of the product.
 
